@@ -11,7 +11,7 @@ Currently, only the latest `main` branch of the Kitsune WhatsApp Bot is supporte
 
 ## Reporting a Vulnerability
 
-We take the security of Kitsune and the privacy of our users very seriously. 
+We take the security of Kitsune and the privacy of our users very seriously.
 
 If you discover a security vulnerability within this project, please **do not** open a public issue on GitHub. Instead, please follow these steps:
 

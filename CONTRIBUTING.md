@@ -16,7 +16,7 @@ At this point, you're ready to make your changes. Feel free to ask for help; eve
 
 ## Make a Pull Request
 
-At this point, you should switch back to your master branch and make sure it's up to date with the main repository. 
+At this point, you should switch back to your master branch and make sure it's up to date with the main repository.
 Then create a pull request with a clear list of what you've done.
 
 ## Code Style
