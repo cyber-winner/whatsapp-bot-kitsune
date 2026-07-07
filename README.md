@@ -3,17 +3,32 @@
 This is a WhatsApp bot built using Node.js and `whatsapp-web.js`. It functions as a participant in group chats and provides an AI conversational agent (using Groq LLMs), a Pokemon mini-game, and various utility commands.
 
 ## Table of Contents
-1. [How to Set It Up](#how-to-set-it-up)
-2. [Environment Variables Guide](#environment-variables-guide)
-3. [Architecture Overview](#architecture-overview)
-4. [Detailed Component Breakdown](#detailed-component-breakdown)
-5. [The Flow of a Message](#the-flow-of-a-message)
-6. [Command Reference List](#command-reference-list)
-7. [Data Structures & Schemas](#data-structures--schemas)
-8. [Advanced Deployment Options](#advanced-deployment-options)
-9. [Guide for Developers](#guide-for-developers)
-10. [Troubleshooting & FAQ](#troubleshooting--faq)
-11. [License](#license)
+1. [History](#history)
+2. [How to Set It Up](#how-to-set-it-up)
+3. [Environment Variables Guide](#environment-variables-guide)
+4. [Architecture Overview](#architecture-overview)
+5. [Detailed Component Breakdown](#detailed-component-breakdown)
+6. [The Flow of a Message](#the-flow-of-a-message)
+7. [Command Reference List](#command-reference-list)
+8. [Data Structures & Schemas](#data-structures--schemas)
+9. [Advanced Deployment Options](#advanced-deployment-options)
+10. [Guide for Developers](#guide-for-developers)
+11. [Troubleshooting & FAQ](#troubleshooting--faq)
+12. [License](#license)
+
+---
+
+## History
+
+The creation of this bot started when my friends and I made a WhatsApp group chat. It was a great space where we spent time daily chatting, roasting each other in friendly fire, and talking about games, movies, and more. To make things even more fun, I decided to build a bot with basic commands like `kick`, `slap`, `kiss`, and `meme`. The group members loved it, and my goal became to bring a Discord-like environment directly into WhatsApp.
+
+After a few days, I noticed people in the group were talking a lot about Pokémon. Inspired by Discord bots like Pokétwo and Dank Memer, as well as Pokémon GO and Pokémon TCG, I combined all those ideas and created a fully-fledged Pokémon feature for the bot.
+
+At that time, the bot was named **Celestia**. I later added \"family codes\" to create families within the group chat (inspired by the Discord marriage bot). 
+
+The biggest evolution happened when I decided to add AI. That's when Celestia became **Kitsune**, inspired by an Indonesian Instagram content creator named Kitsune. I didn't want the AI to just be a tool or an assistant; I wanted it to adapt, learn from the group chat, and feel like a human participant in our conversations. I initially used Ollama, but eventually transitioned to using Ollama to refine the context and sending it to Groq for better, faster results. Soon after, I added live weather, a math tool, browser search, and other utilities.
+
+Eventually, I decided to stop active development on this project because it had achieved everything I wanted for our group. I've now pushed it open-source so that if anyone else wants to use it and bring that same fun to their own group chats, they can do so freely.
 
 ---
 
