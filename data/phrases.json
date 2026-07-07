@@ -1,0 +1,381 @@
+{
+  "family": {
+    "adopt": [
+      "👨‍👩‍👦 *FAMILY GROWS!* 👨‍👩‍👦 ⋆.˚ ᡣ𐭩\n\n*@{t}* has been officially adopted by *@{s}*! 🎀",
+      "🍼 *Welcome home!* 🍼 ૮ ˶ᵔ ᵕ ᵔ˶ ა\n\n*@{s}* adopted *@{t}*! Someone buy some diapers! 👶 🫧",
+      "🏠 *New Addition!* 🏠 ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆\n\n*@{t}* is the newest child of *@{s}*! What a lovely family! 🥰 𓍢ִ໋🌷͙֒",
+      "👶 *Goo goo gaga!* 👶 ੈ✩‧₊˚\n\n*@{t}* just got adopted by *@{s}*! Time for some milk! 🥛 ‹𝟹",
+      "🧸 *Cuddles time!* 🧸 ˚₊‧꒰ა ✦ ໒꒱ ‧₊˚\n\n*@{s}* adopted *@{t}*! Such a cute little bean! 💕 ✧.*"
+    ],
+    "disown": [
+      "👋 *@{s}* has disowned *@{t}*. They are no longer part of your family. (╥﹏╥) ⋆.˚",
+      "🗑️ *Taking out the trash!* 🗑️ 𖦹\n\n*@{s}* just disowned *@{t}*! Harsh! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "🚪 *There's the door!* 🚪 ᯓ★\n\n*@{s}* kicked *@{t}* out of the family! You're cut off from the inheritance! 💰",
+      "⛔ *Access Denied!* ⛔ ⋆·˚ ༘ *\n\n*@{s}* threw *@{t}* out on the streets! No dinner for you! 🍽️ 𓆩♡𓆪",
+      "✂️ *Snip snip!* ✂️ 🫧\n\n*@{s}* cut ties with *@{t}*. Blood is NOT thicker than water today. 🎧ྀི"
+    ],
+    "divorce": [
+      "💔 *@{s}* and *@{t}* are officially divorced. The dating pool is open again. ⋆.ೃ࿔*:･",
+      "🥀 *It's over.* 🥀 ૮꒰ ˶• ༝ •˶꒱ა ♡\n\n*@{s}* just broke up with *@{t}*. Love is a lie. 😭",
+      "⚖️ *The papers are signed!* ⚖️ ୨୧\n\n*@{s}* and *@{t}* have separated ways. Wish them luck! 🎀",
+      "⛈️ *Stormy Weather.* ⛈️ 𖦹\n\n*@{s}* and *@{t}* called it quits. There are plenty of fish in the sea! 🐟 ੈ✩‧₊˚",
+      "👋 *Goodbye, My Lover!* 👋 ⋆.˚\n\n*@{s}* divorced *@{t}*. It was good while it lasted. ᡣ𐭩"
+    ],
+    "emancipate": [
+      "🏃 *@{s}* ran away from home! They are no longer the child of *@{t}*. 🪼⋆.ೃ࿔*:･",
+      "🎒 *Packing bags!* 🎒 ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆\n\n*@{s}* emancipated from *@{t}*! I'm an independent adult now! 😤",
+      "💨 *Poof! Gone!* 💨 🫧\n\n*@{s}* escaped from *@{t}*'s basement! Free at last! 🕊️ ✧.*",
+      "🛑 *I've had enough!* 🛑 ‹𝟹\n\n*@{s}* moved out and left *@{t}* behind! The rebellion has begun! 🎸 ᯓ★",
+      "🧳 *See ya!* 🧳 ˚₊‧꒰ა ✦ ໒꒱ ‧₊˚\n\n*@{s}* packed their things and left *@{t}*! Don't wait up! 🌙"
+    ],
+    "makeparent": [
+      "👨‍👩‍👦 *FAMILY GROWS!* 👨‍👩‍👦 ૮ ˶ᵔ ᵕ ᵔ˶ ა\n\n*@{s}* is now officially the child of *@{t}*! 🎀",
+      "🍼 *Mommy/Daddy?* 🍼 ⋆.˚\n\n*@{t}* took *@{s}* in! A new parent in town! 👶 𓍢ִ໋🌷͙֒",
+      "🏠 *Family goals!* 🏠 ୨୧\n\n*@{s}* just found a loving parent in *@{t}*! 🥰 ੈ✩‧₊˚",
+      "👶 *Awww!* 👶 ⋆.ೃ࿔*:･\n\n*@{s}* got adopted by *@{t}*! Time to pay for college! 💸 ᡣ𐭩",
+      "🧸 *Wholesome moment!* 🧸 ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆\n\n*@{t}* is now legally responsible for *@{s}*! 💕 ✧.*"
+    ],
+    "marry": [
+      "🎉 *CONGRATULATIONS!* 🎉 ૮꒰ ˶• ༝ •˶꒱ა ♡\n\n*@{s}* and *@{t}* are now officially married! 💖 🎀",
+      "🔔 *Wedding Bells!* 🔔 𓍢ִ໋🌷͙֒\n\n*@{s}* and *@{t}* tied the knot! Have a happy married life! 💒 ⋆.˚",
+      "💍 *They said YES!* 💍 ੈ✩‧₊˚\n\n*@{s}* and *@{t}* just got married! True love exists! ✨ ᡣ𐭩",
+      "🥂 *Cheers to the newlyweds!* 🥂 ⋆·˚ ༘ *\n\n*@{s}* and *@{t}* just made it official! Let's party! 🎉 🫧",
+      "💘 *Cupid's Arrow hit!* 💘 𓆩♡𓆪\n\n*@{s}* and *@{t}* are officially a couple now! Stay blessed! 🥰 ୨୧"
+    ]
+  },
+  "fun": {
+    "angry": [
+      "😡 {s} is absolutely furious! Someone is going to pay! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "💢 {s} emits a terrifying, dark aura of pure anger. 𖦹",
+      "🤬 {s} is raging! Better stay out of their way! (¬`‸´¬)"
+    ],
+    "baka": [
+      "💢 {s} yells at {t}: You're such a BAKA! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "😤 {s} turns away, pouting. B-baka {t}... (╥﹏╥)",
+      "👿 {s} scolds {t} for being an absolute idiot. BAKA! ᯓ★"
+    ],
+    "bite": [
+      "🦷 {s} sinks their teeth into {t}! CHOMP! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "🧛‍♂️ {s} gives {t} a playful little bite. ‹𝟹",
+      "🍖 {s} got hungry and decided to bite {t}! ⋆.˚"
+    ],
+    "bleh": [
+      "😛 {s} sticks their tongue out! BLEH! 𖦹",
+      "😝 {s} goes completely bleh. How childish~ 🫧",
+      "😜 {s} teases everyone with a loud BLEEEH! ੈ✩‧₊˚"
+    ],
+    "blowkiss": [
+      "😘 {s} blows a charming kiss right to {t}! 🎀",
+      "💕 {s} sends a magical flying kiss towards {t}! ᡣ𐭩",
+      "✨ {s} blows a kiss... {t} catches it! ૮꒰ ˶• ༝ •˶꒱ა ♡"
+    ],
+    "blush": [
+      "😳 {s}'s face turns completely red! How embarrassing! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆",
+      "🍅 {s} is blushing profusely... so cute! ୨୧",
+      "✨ {s} looks away, trying to hide their bright red blush. 𓍢ִ໋🌷͙֒"
+    ],
+    "bonk": [
+      "🔨 {s} aggressively BONKS {t} on the head! Go to horny jail! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "💥 *THWACK!* {s} just gave {t} a massive bonk! 𖦹",
+      "💢 {s} smacks {t} with a giant squeaky hammer. BONK! ᯓ★"
+    ],
+    "bored": [
+      "🥱 {s} is dying of boredom here... 🫧",
+      "😑 {s} stares blankly at the wall. This is so boring. ⋆·˚ ༘ *",
+      "✨ {s} sighs loudly. Entertain me! 🎧ྀི"
+    ],
+    "carry": [
+      "💪 {s} effortlessly lifts {t} up and carries them away! ✧.*",
+      "✨ {s} gives {t} a romantic bridal carry! 𓆩♡𓆪",
+      "🎒 {s} throws {t} over their shoulder like a sack of potatoes! ⋆.ೃ࿔*:･"
+    ],
+    "clap": [
+      "👏 {s} is giving a roaring round of applause! ੈ✩‧₊˚",
+      "🎊 {s} claps enthusiastically! Bravo! Bravo! 🎀",
+      "✨ {s} stands up and claps in pure admiration. ૮ ˶ᵔ ᵕ ᵔ˶ ა"
+    ],
+    "confused": [
+      "😵‍💫 {s} is incredibly confused right now. What is happening?! 𖦹",
+      "❓ {s} tilts their head in utter confusion. 🫧",
+      "🌀 {s}'s brain just short-circuited. Error 404: Logic not found. ૮₍ ˃ ⤙ ˂ ₎ა"
+    ],
+    "cry": [
+      "😭 {s} bursts into uncontrollable tears! (╥﹏╥)",
+      "💧 {s} is quietly sobbing in the corner... ⋆.˚",
+      "🥺 {s}'s eyes well up with tears. Who hurt them?! ‹𝟹"
+    ],
+    "cuddle": [
+      "🥰 {s} pulls {t} into a warm, cozy cuddle! ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "🧸 {s} snuggles up tightly against {t}. So soft~ ୨୧",
+      "✨ {s} and {t} are cuddling like there's no tomorrow! ᡣ𐭩"
+    ],
+    "dance": [
+      "💃 {s} is busting out some incredible dance moves! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆",
+      "🕺 {s} hits the dance floor and completely steals the show! ੈ✩‧₊˚",
+      "🎶 {s} grooves to the music. What a legend! 🎧ྀི"
+    ],
+    "facepalm": [
+      "🤦 {s} slaps their forehead. The stupidity is overwhelming. 𖦹",
+      "📉 {s} just lost all hope for humanity. *Facepalm* (╥﹏╥)",
+      "😒 {s} can't even look right now. Absolute facepalm. 🫧"
+    ],
+    "feed": [
+      "🍱 {s} carefully feeds {t} a delicious bite. Say ahh! 🎀",
+      "🍙 {s} shoves some food directly into {t}'s mouth! Eat up! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {s} treats {t} to a sweet dessert. How lovely! 𓍢ִ໋🌷͙֒"
+    ],
+    "handhold": [
+      "👫 {s} securely locks fingers with {t}. How lewd! ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "✨ {s} blushes as they gently hold {t}'s hand. ᡣ𐭩",
+      "💖 {s} and {t} walk together, holding hands warmly. 𓆩♡𓆪"
+    ],
+    "handshake": [
+      "🤝 {s} and {t} firmly shake hands. It's a deal! ✧.*",
+      "✨ {s} shakes {t}'s hand respectfully. ⋆.˚",
+      "🤝 {s} locks eyes with {t} during an intense handshake. ੈ✩‧₊˚"
+    ],
+    "happy": [
+      "🎉 {s} is bouncing around with sheer happiness! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {s} is practically glowing with joy! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆",
+      "🌈 {s}'s day has been made. So happy! 🎀"
+    ],
+    "highfive": [
+      "🙌 {s} gives {t} an epic high-five! TEAMWORK! ᯓ★",
+      "✨ {s} and {t} share a satisfying, perfectly timed high-five! ੈ✩‧₊˚",
+      "👏 {s} leaves {t} hanging... wait, no, they finally high-fived! 🫧"
+    ],
+    "hug": [
+      "🤗 {s} wraps their arms tightly around {t} for a lovely hug! ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "✨ {s} tackles {t} with a massive bear hug! ୨୧",
+      "💖 {s} shares a sweet, comforting hug with {t}. ᡣ𐭩"
+    ],
+    "husbando": [
+      "💖 {s} summoned a handsome husbando! 𓍢ִ໋🌷͙֒",
+      "✨ Your new husbando is here, {s}! ⋆.˚",
+      "💍 {s} found their dream husbando! 𓆩♡𓆪"
+    ],
+    "kabedon": [
+      "💥 {s} aggressively slams the wall next to {t}'s head! KABEDON! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "😳 {s} traps {t} against the wall. The tension is real! ‹𝟹",
+      "✨ {s} gazes deeply into {t}'s eyes after a smooth kabedon. 𖦹"
+    ],
+    "kik": [
+      "🦵 {s} delivers a devastating roundhouse kick to {t}! ᯓ★",
+      "💥 {s} kicks {t} straight into orbit! ੈ✩‧₊˚",
+      "😠 {s} forcefully kicks {t} out of the way! ૮₍ ˃ ⤙ ˂ ₎ა"
+    ],
+    "kiss": [
+      "💏 {s} leans in and gives {t} a passionate kiss! ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "💋 {s} gently kisses {t}. The romance is palpable~ ᡣ𐭩",
+      "✨ {s} suddenly grabs {t} and kisses them deeply! 𓆩♡𓆪"
+    ],
+    "kitsune": [
+      "🦊 {s} encountered a magical kitsune! ⋆.ೃ࿔*:･",
+      "✨ A beautiful kitsune has blessed {s}~ 🎀",
+      "🐾 {s} summoned an elegant kitsune spirit! ˚₊‧꒰ა ✦ ໒꒱ ‧₊˚"
+    ],
+    "lappillow": [
+      "🦵 {s} gently guides {t}'s head onto their lap. So comfy~ ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {t} falls asleep peacefully on {s}'s lap pillow. 💤 ⋆.˚",
+      "💖 {s} gives {t} a warm lap pillow and strokes their hair. ୨୧"
+    ],
+    "laugh": [
+      "😂 {s} is laughing uncontrollably! ੈ✩‧₊˚",
+      "🤣 {s} literally fell out of their chair laughing! 🫧",
+      "✨ {s} chuckles softly at the joke. 🎀"
+    ],
+    "lurk": [
+      "👀 {s} is lurking in the shadows... watching everyone. 𖦹",
+      "🥷 {s} silently slips into the background, observing the chat. 🎧ྀི",
+      "🕵️‍♂️ You feel a shiver down your spine... {s} is lurking nearby. ⋆·˚ ༘ *"
+    ],
+    "neko": [
+      "🐱 {s} summoned a cute little neko! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "🐾 Here's an adorable neko just for {s}~ 🎀",
+      "✨ Meow! A precious neko has appeared for {s}! ᡣ𐭩"
+    ],
+    "nod": [
+      "✅ {s} nods in absolute agreement. ✧.*",
+      "✨ {s} gives a firm, approving nod. ⋆.˚",
+      "👍 {s} nods slowly, understanding the situation completely. ੈ✩‧₊˚"
+    ],
+    "nom": [
+      "🍔 {s} is happily nomming on a giant meal! NOM NOM! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆",
+      "🍩 {s} takes a huge bite. Nom nom nom~ ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {s} is quietly munching away in the corner. 🫧"
+    ],
+    "nope": [
+      "❌ {s} firmly says NOPE. Absolutely not. (╥﹏╥)",
+      "🛑 {s} crosses their arms. That's a big NOPE from me. ૮₍ ˃ ⤙ ˂ ₎ა",
+      "🚶 {s} turns around and walks away. Nope. 𖦹"
+    ],
+    "nya": [
+      "🐱 {s} curls up and goes NYA~ 🎀",
+      "🐾 {s} embraces their inner catgirl/catboy. Nyaaa! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ Meow! {s} is feeling very nya today! ᡣ𐭩"
+    ],
+    "pat": [
+      "✋ {s} gently pats {t}'s head. Good boy/girl~ ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "✨ {s} gives {t} some much-needed headpats. There, there. ୨୧",
+      "💖 {s} softly ruffles {t}'s hair with a warm pat. 𓍢ִ໋🌷͙֒"
+    ],
+    "peck": [
+      "💋 {s} gives {t} a soft little peck on the cheek! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "😚 {s} leans in and quickly pecks {t}! 🎀",
+      "✨ {s} surprises {t} with a sweet little peck! ᡣ𐭩"
+    ],
+    "poke": [
+      "👉 {s} pokes {t} right on the cheek! Boop! 🫧",
+      "✨ {s} repeatedly pokes {t}... Pay attention to me! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "🐾 {s} sneaks up and pokes {t} gently! ⋆.˚"
+    ],
+    "pout": [
+      "😤 {s} crosses their arms and pouts. Hmph! (╥﹏╥)",
+      "😠 {s} is visibly pouting... give them what they want! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "✨ {s} puffs out their cheeks in a cute little pout. ୨୧"
+    ],
+    "punch": [
+      "🥊 {s} delivers a devastating uppercut to {t}! ᯓ★",
+      "💥 {s} punches {t} so hard they break the sound barrier! ੈ✩‧₊˚",
+      "💢 {s} gives {t} a serious beatdown! ૮₍ ˃ ⤙ ˂ ₎ა"
+    ],
+    "run": [
+      "🏃 {s} is sprinting away at the speed of sound! 💨 🫧",
+      "💨 {s} yells 'NOPE!' and runs for their life! 𖦹",
+      "🏁 {s} dashes off into the sunset. ⋆.ೃ࿔*:･"
+    ],
+    "salute": [
+      "🫡 {s} stands at attention and salutes! ✧.*",
+      "🎖️ {s} gives a crisp, honorable salute. ⋆.˚",
+      "✨ Sir, yes sir! {s} salutes with perfect form. ੈ✩‧₊˚"
+    ],
+    "shake": [
+      "🫨 {s} is shaking violently. Is it cold, or fear?! 𖦹",
+      "✨ {s} trembles nervously... 🫧",
+      "🥶 {s} shivers and shakes uncontrollably. (╥﹏╥)"
+    ],
+    "shocked": [
+      "😱 {s} gasps in pure, unadulterated shock! 𖦹",
+      "⚡ {s} is absolutely flabbergasted! 🫧",
+      "🙀 {s}'s jaw just dropped straight to the floor. ⋆·˚ ༘ *"
+    ],
+    "shoot": [
+      "🔫 {s} unleashes a barrage of bullets at {t}! PEW PEW PEW! ᯓ★",
+      "💥 {s} perfectly snipes {t} from across the map! HEADSHOT! ੈ✩‧₊˚",
+      "🎯 {t} didn't even see it coming... {s} just blasted them away! ૮₍ ˃ ⤙ ˂ ₎ა"
+    ],
+    "shrug": [
+      "🤷 {s} just shrugs it off. It is what it is~ 🫧",
+      "😶 {s} has absolutely no idea what's going on. 𖦹",
+      "✨ {s} gives a casual shrug. Not my problem! 🎧ྀི"
+    ],
+    "sip": [
+      "☕ {s} takes a slow, dramatic sip of their drink. ⋆.˚",
+      "🍵 {s} is just sitting here, sipping quietly... ੈ✩‧₊˚",
+      "🧃 {s} aggressively sips their juice box. ૮ ˶ᵔ ᵕ ᵔ˶ ა"
+    ],
+    "slap": [
+      "🖐️ {s} aggressively SLAPS {t} across the face! Ouch! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "💥 {s} backhands {t}! The disrespect is real! ᯓ★",
+      "💢 {s} gives {t} a resounding slap! Snap out of it! 𖦹"
+    ],
+    "sleep": [
+      "💤 {s} couldn't stay awake any longer. Sweet dreams! Zzz... ⋆.˚",
+      "🛏️ {s} snuggles into a warm blanket and drifts off to sleep. ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "😴 The exhaustion finally caught up! {s} has fallen asleep. ୨୧"
+    ],
+    "smile": [
+      "😊 {s} flashes a bright, heartwarming smile! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {s} smiles gently, filling the room with warmth. 🎀",
+      "😇 A pure, innocent smile appears on {s}'s face! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆"
+    ],
+    "smug": [
+      "😏 {s} looks incredibly smug right now. They know something you don't. 𖦹",
+      "✨ {s} wears an aura of absolute superiority. ੈ✩‧₊˚",
+      "😼 {s} gives the smuggest grin imaginable. 🫧"
+    ],
+    "spin": [
+      "🌀 {s} spins around like a beautiful ballerina! 🎀",
+      "🚁 {s} spins faster and faster... they're taking off! ੈ✩‧₊˚",
+      "😵‍💫 {s} spun too much and is now completely dizzy. 𖦹"
+    ],
+    "stare": [
+      "👁️ {s} is staring deeply into your soul... 𖦹",
+      "👀 {s} refuses to blink. The staring contest has begun. 🫧",
+      "😶 {s} just stands there, silently staring... ⋆·˚ ༘ *"
+    ],
+    "tableflip": [
+      "┻━┻ ︵ヽ(Д´)ﾉ︵ ┻━┻ {s} FLIPS THE FREAKING TABLE! ૮₍ ˃ ⤙ ˂ ₎ა",
+      "💥 {s} had enough and flipped everything over! ᯓ★",
+      "💢 {s} dramatically throws the table into the sun! ੈ✩‧₊˚"
+    ],
+    "teehee": [
+      "🤭 {s} giggles mischieviously... Teehee! 🎀",
+      "✨ {s} covers their mouth and lets out a soft teehee~ ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "😈 {s} is definitely planning something. *Teehee* 𖦹"
+    ],
+    "think": [
+      "🤔 {s} is lost in deep thought. Do not disturb. ⋆.˚",
+      "💭 {s} is calculating the mysteries of the universe... ੈ✩‧₊˚",
+      "✨ {s} rubs their chin thoughtfully. 🫧"
+    ],
+    "thumbsup": [
+      "👍 {s} gives a big, supportive thumbs up! 🎀",
+      "✨ {s} smiles and flashes a thumbs up. You got this! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "💯 {s} approves with an enthusiastic thumbs up! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆"
+    ],
+    "tickle": [
+      "👐 {s} mercilessly tickles {t}! No escape! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "😂 {t} bursts into laughter as {s} tickles their sides! 🫧",
+      "✨ {s} sneaks up and starts a surprise tickle attack on {t}! 🎀"
+    ],
+    "wag": [
+      "🐕 {s} is so happy their tail is wagging at lightspeed! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "✨ {s} wags their imaginary tail in sheer excitement! 🎀",
+      "🐾 {s} is overflowing with joy! *Wag wag wag* ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆"
+    ],
+    "waifu": [
+      "💖 {s} discovered a beautiful waifu! 𓍢ִ໋🌷͙֒",
+      "✨ Your new waifu has arrived, {s}! ⋆.˚",
+      "💍 {s} found their perfect waifu! 𓆩♡𓆪"
+    ],
+    "wave": [
+      "👋 {s} waves energetically! Hello there! 🎀",
+      "✨ {s} gives a cute little wave to everyone. ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "🤗 {s} waves with a big, bright smile! ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆"
+    ],
+    "wink": [
+      "😉 {s} gives a charming little wink! 🎀",
+      "✨ {s} winks playfully. You know what that means! ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+      "🌟 {s} flashes a confident wink at the crowd. ੈ✩‧₊˚"
+    ],
+    "yawn": [
+      "🥱 {s} lets out a massive yawn. So sleepy... ⋆.˚",
+      "💤 {s} rubs their eyes and yawns tiredly. ૮꒰ ˶• ༝ •˶꒱ა ♡",
+      "✨ {s} stretches their arms and yawns. ୨୧"
+    ],
+    "yeet": [
+      "🚀 {s} grabs {t} and YEETS them into the stratosphere! ᯓ★",
+      "☄️ {t} was successfully yeeted out of the group by {s}! ੈ✩‧₊˚",
+      "💨 {s} shouts 'YEET!' and throws {t} across the room! ૮₍ ˃ ⤙ ˂ ₎ა"
+    ]
+  },
+  "moderation": {},
+  "pokemon": {
+    "daily": {
+      "success": [
+        "🎁 *DAILY REWARD CLAIMED!* 🎁 ⋆.˚ ᡣ𐭩\n\n👤 *Trainer:* {name}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n  💰 *+{coins} PokéCoins*\n  🔴 *+{balls} Pokéballs*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💼 *Wallet:* {totalCoins} PokéCoins\n🔴 *Pokéballs:* {totalBalls}\n\n⏳ _Come back in 24 hours for more!_ 🎀\n\n_~Kitsune rewards the faithful~_ ✨",
+        "🌟 *YOUR DAILY LOOT!* 🌟 ૮꒰ ˶• ༝ •˶꒱ა ♡\n\n👤 *Trainer:* {name}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n  💰 *+{coins} PokéCoins*\n  🔴 *+{balls} Pokéballs*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💼 *Wallet:* {totalCoins} PokéCoins\n🔴 *Pokéballs:* {totalBalls}\n\n⏳ _Keep your streak going tomorrow!_ 𓍢ִ໋🌷͙֒\n\n_~Kitsune shines upon you~_ ✨",
+        "📦 *DAILY CARE PACKAGE!* 📦 ⋆｡‧˚ʚ🍓ɞ˚‧｡⋆\n\n👤 *Trainer:* {name}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n  💰 *+{coins} PokéCoins*\n  🔴 *+{balls} Pokéballs*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💼 *Wallet:* {totalCoins} PokéCoins\n🔴 *Pokéballs:* {totalBalls}\n\n⏳ _See you again in 24 hours!_ ੈ✩‧₊˚\n\n_~A true trainer never misses a day~_ ✨"
+      ],
+      "cooldown": [
+        "⏳ *DAILY COOLDOWN ACTIVE* ⏳ ૮₍ ˃ ⤙ ˂ ₎ა\n\n👤 *Trainer:* {name}\n\n_You've already claimed your daily reward!_\n\n⏰ *Time remaining:* {time}\n\n_~Patience, trainer! Come back later~_ 🕐 𖦹",
+        "🚫 *TOO EARLY!* 🚫 (╥﹏╥)\n\n👤 *Trainer:* {name}\n\n_Your next daily reward isn't ready yet!_\n\n⏰ *Time remaining:* {time}\n\n_~Good things come to those who wait~_ 🕐 🫧",
+        "⏱️ *STILL ON COOLDOWN* ⏱️ ⋆·˚ ༘ *\n\n👤 *Trainer:* {name}\n\n_You already got your loot for today!_\n\n⏰ *Time remaining:* {time}\n\n_~Don't get greedy, trainer!~_ 🕐 🎧ྀི"
+      ]
+    }
+  },
+  "reactions": {},
+  "snipe": {},
+  "utility": {}
+}

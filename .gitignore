@@ -1,0 +1,78 @@
+# =========================
+# Node & Dependencies
+# =========================
+node_modules/
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Python & Virtual Envs
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+
+# =========================
+# Build & Testing
+# =========================
+coverage/
+build/
+dist/
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+wa_hoyo_tokens.json
+
+# =========================
+# WhatsApp Auth & Cache
+# =========================
+.wwebjs_auth/
+.wwebjs_cache/
+RemoteAuth-*/
+
+# =========================
+# User & Bot Data (PERSONAL)
+# =========================
+store-data-for-use/
+global-messages/
+downloads/
+scratch/
+temp/
+tmp/
+
+# =========================
+# Databases & Logs
+# =========================
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.csv
+logs/
+*.log
+
+# =========================
+# OS & Archives & Binaries
+# =========================
+.DS_Store
+Thumbs.db
+*.zip
+*.tar
+*.gz
+*.rar
+*.deb
+*.exe
+cloudflared*

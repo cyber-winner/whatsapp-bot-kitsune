@@ -1,0 +1,42 @@
+# Version control
+.git
+.github
+.gitignore
+
+# Dependencies (will be installed fresh in container)
+node_modules
+frontend/node_modules
+
+# Session data (must be mounted as volume, not baked into image)
+.wwebjs_auth
+.wwebjs_cache
+
+# Runtime data (mounted as volumes)
+logs
+global-messages
+store-data-for-use/chats
+store-data-for-use/group
+
+# Environment secrets (must be bind-mounted, never baked in)
+.env
+
+# Development files
+*.log
+scratch
+*.md
+!frontend/README.md
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (don't include themselves)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Scripts not needed in container
+start_windows.bat
+setup_and_start.py

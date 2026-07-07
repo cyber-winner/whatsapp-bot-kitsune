@@ -1,0 +1,71 @@
+[
+  {
+    "id": "enchanted stardust",
+    "displayName": "Enchanted Stardust",
+    "emoji": "✨",
+    "description": "A radiant cosmic dust that guarantees +10 levels to any Pokémon. No fail chance! Requires Prestige 1+.",
+    "price": 1000,
+    "quantity": 1,
+    "category": "Training",
+    "aliases": [
+      "enchanted stardust",
+      "stardust",
+      "enchantedstardust",
+      "edust"
+    ],
+    "guide": "✨ *ITEM GUIDE: ENCHANTED STARDUST* ✨\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📖 *Description:*\nA radiant cosmic dust harvested from fallen stars. Guarantees a powerful level boost to any Pokémon.\n\nℹ️ *How it works:*\n• *Guaranteed Boost:* Adds a random amount of levels between (current level + 10) and the Pokémon's max level cap.\n• *No Fail Chance:* Unlike Level Orbs, Enchanted Stardust NEVER fails!\n• *Restriction:* Cannot be used if the Pokémon is within 10 levels of its max cap.\n\n⚠️ *Requirement:* Prestige Level 1 or above to purchase.\n\n🛒 *Price:* 10,000 PokéCoins",
+    "requiresPrestige": 1
+  },
+  {
+    "id": "enchanted wand",
+    "displayName": "Enchanted Wand",
+    "emoji": "🪄",
+    "description": "A mischievous wand that can block another trainer from catching for 5 spawns! 50% backfire chance. Requires Prestige 1+.",
+    "price": 20000,
+    "quantity": 1,
+    "category": "PvP",
+    "aliases": [
+      "enchanted wand",
+      "wand",
+      "enchantedwand",
+      "ewand"
+    ],
+    "guide": "🪄 *ITEM GUIDE: ENCHANTED WAND* 🪄\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📖 *Description:*\nA mischievous enchanted wand that can hex another trainer!\n\nℹ️ *How it works:*\n• *Target a Player:* Use this item on another trainer.\n• *50% Success:* If successful, the target cannot catch Pokémon for the next 5 global spawns.\n• *50% Backfire:* If it fails, YOU get the catch block instead!\n\n⚠️ *Requirement:* Prestige Level 1 or above to purchase.\n\n🛒 *Price:* 20,000 PokéCoins",
+    "requiresPrestige": 1
+  },
+  {
+    "id": "dirty diaper",
+    "displayName": "Dirty Diaper",
+    "emoji": "💩",
+    "description": "A powerful self-buff! Activate to catch any Pokémon by typing just 'kitsune catch' — no name needed! Lasts 20 catches. Stackable! Once per day purchase. Requires Prestige 1+.",
+    "price": 10000,
+    "quantity": 1,
+    "category": "Buff",
+    "aliases": [
+      "dirty diaper",
+      "diaper",
+      "dirtydiaper",
+      "ddiaper"
+    ],
+    "guide": "💩 *ITEM GUIDE: DIRTY DIAPER* 💩\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📖 *Description:*\nA legendary foul-smelling diaper that grants the wearer the power to skip spelling hard Pokémon names!\n\nℹ️ *How it works:*\n• *Self-Buff:* Use this on YOURSELF with `-pokeuse dirty diaper`.\n• *Effect:* For the next 20 successful catches, you can type just `kitsune catch` to catch any Pokémon — no need to spell the name!\n• *Stackable:* Uses stack! If you have 20 charges left and use another diaper, you'll have 40!\n• *Purchase Limit:* Can only be bought once per day from the Omega Shop — but you can save them up and use whenever you want!\n\n⚠️ *Requirement:* Prestige Level 1 or above to purchase.\n\n🛒 *Price:* 10,000 PokéCoins",
+    "requiresPrestige": 1,
+    "dailyLimit": 1
+  },
+  {
+    "id": "literally karen",
+    "displayName": "Literally Karen",
+    "emoji": "💅",
+    "description": "Removes your catch cooldown for 30 minutes — no skip penalties! Requires Prestige 1+.",
+    "price": 50000,
+    "quantity": 1,
+    "category": "Utility",
+    "aliases": [
+      "literally karen",
+      "karen",
+      "literallykaren",
+      "lkaren"
+    ],
+    "guide": "💅 *ITEM GUIDE: LITERALLY KAREN* 💅\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📖 *Description:*\nChannel your inner Karen and demand to catch every single Pokémon with no cooldown!\n\nℹ️ *How it works:*\n• *No Cooldown:* For 30 minutes, you will NOT have any catch cooldown (no \"skip 1 spawn\" penalty).\n• *Catch Everything:* Every spawn that appears, you can catch immediately!\n\n⚠️ *Requirement:* Prestige Level 1 or above to purchase.\n\n🛒 *Price:* 50,000 PokéCoins",
+    "requiresPrestige": 1
+  }
+]

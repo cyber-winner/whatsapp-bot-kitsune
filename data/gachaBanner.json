@@ -1,0 +1,11 @@
+{
+  "name": "Kitsune Radiant Banner",
+  "featured5Star": 483,
+  "pool4Star": [3, 700, 197],
+  "pool3StarPool": [
+    { "itemName": "Level Orb", "chance": 50 },
+    { "itemName": "Raid Pass", "chance": 30 },
+    { "itemName": "Enchanted Stardust", "chance": 19 },
+    { "itemName": "Dirty Diaper", "chance": 1 }
+  ]
+}

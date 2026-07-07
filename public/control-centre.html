@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitsune Control Centre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .module-card { transition: all 0.3s ease; }
+        .module-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); } 50% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.6); } }
+        .online-glow { animation: pulse-glow 2s infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="glass rounded-xl p-8 w-full max-w-md text-center transition-all">
+        <div class="mb-6 flex justify-center">
+            <i data-lucide="shield-alert" class="w-16 h-16 text-indigo-400"></i>
+        </div>
+        <h1 class="text-2xl font-bold mb-2">Kitsune Override</h1>
+        <p class="text-slate-400 mb-6 text-sm">Enter administrator passphrase</p>
+        
+        <form id="login-form" class="space-y-4">
+            <input type="password" id="password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="••••••••" required>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="unlock" class="w-4 h-4"></i> Authenticate
+            </button>
+        </form>
+        <p id="login-error" class="text-red-400 mt-4 text-sm hidden">Invalid passphrase.</p>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="hidden w-full max-w-6xl flex flex-col gap-6">
+        
+        <!-- Header -->
+        <div class="glass rounded-xl p-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="server" class="text-indigo-400"></i> Kitsune Control Centre</h1>
+                <p class="text-slate-400 text-sm">Microservices Management & Overrides</p>
+            </div>
+            <button onclick="logout()" class="text-slate-400 hover:text-white flex items-center gap-1 text-sm bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                <i data-lucide="log-out" class="w-4 h-4"></i> Lock
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- PM2 / System Power -->
+            <div class="glass rounded-xl p-6 flex flex-col gap-4">
+                <h2 class="text-lg font-semibold flex items-center gap-2 border-b border-slate-700 pb-2"><i data-lucide="power" class="w-5 h-5 text-red-400"></i> Power Management</h2>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="execute('pm2-restart')" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm flex flex-col items-center justify-center gap-2 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-6 h-6 text-blue-400"></i>
+                        Restart All
+                    </button>
+                    <button onclick="execute('pm2-stop')" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm flex flex-col items-center justify-center gap-2 transition-colors">
+                        <i data-lucide="stop-circle" class="w-6 h-6 text-orange-400"></i>
+                        Stop All
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-2">
+                    <button onclick="execute('pc-shutdown')" class="bg-red-900/50 hover:bg-red-800/60 border border-red-700/50 rounded-lg p-3 text-sm flex flex-col items-center justify-center gap-2 transition-colors text-red-100">
+                        <i data-lucide="power-off" class="w-6 h-6 text-red-400"></i>
+                        Shutdown
+                    </button>
+                    <button onclick="execute('pc-reboot')" class="bg-orange-900/50 hover:bg-orange-800/60 border border-orange-700/50 rounded-lg p-3 text-sm flex flex-col items-center justify-center gap-2 transition-colors text-orange-100">
+                        <i data-lucide="rotate-ccw" class="w-6 h-6 text-orange-400"></i>
+                        Reboot
+                    </button>
+                </div>
+            </div>
+
+            <!-- Module API Cards -->
+            <div class="glass rounded-xl p-6 lg:col-span-2 flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <h2 class="text-lg font-semibold flex items-center gap-2"><i data-lucide="blocks" class="w-5 h-5 text-indigo-400"></i> Module Services</h2>
+                    <button onclick="refreshModules()" class="text-indigo-400 hover:text-indigo-300"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                </div>
+                
+                <div id="modules-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- PM2 Microservices -->
+            <div class="glass rounded-xl p-6 lg:col-span-3 flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <h2 class="text-lg font-semibold flex items-center gap-2"><i data-lucide="cpu" class="w-5 h-5 text-purple-400"></i> PM2 Ecosystem</h2>
+                    <button onclick="refreshPm2Status()" class="text-purple-400 hover:text-purple-300"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                </div>
+                
+                <div id="pm2-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- System Hardware Stats -->
+            <div class="glass rounded-xl p-6 lg:col-span-3 flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <h2 class="text-lg font-semibold flex items-center gap-2"><i data-lucide="activity" class="w-5 h-5 text-emerald-400"></i> System Hardware & Diagnostics</h2>
+                    <div class="text-xs text-slate-400 flex items-center gap-2">
+                        <span id="stats-live-indicator" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="stats-container">
+                    <!-- CPU -->
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                        <h3 class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2 flex justify-between">CPU <i data-lucide="cpu" class="w-4 h-4 text-emerald-400"></i></h3>
+                        <div class="text-2xl font-bold text-white mb-1" id="stat-cpu-load">--%</div>
+                        <div class="text-xs text-slate-400" id="stat-cpu-model">Loading...</div>
+                        <div class="mt-3 flex justify-between text-xs">
+                            <span class="text-slate-500">Temp:</span>
+                            <span class="font-mono text-orange-400" id="stat-cpu-temp">--°C</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Memory -->
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                        <h3 class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2 flex justify-between">Memory <i data-lucide="memory-stick" class="w-4 h-4 text-emerald-400"></i></h3>
+                        <div class="text-2xl font-bold text-white mb-1" id="stat-ram-usage">-- / --</div>
+                        <div class="w-full bg-slate-700 rounded-full h-1.5 mt-2 mb-1">
+                            <div class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500" id="stat-ram-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs mt-2">
+                            <span class="text-slate-500">Free:</span>
+                            <span class="font-mono text-emerald-400" id="stat-ram-free">--</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Power & Battery -->
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                        <h3 class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2 flex justify-between">Power <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i></h3>
+                        <div class="text-2xl font-bold text-white mb-1" id="stat-battery-percent">--%</div>
+                        <div class="text-xs text-slate-400" id="stat-battery-status">Checking...</div>
+                        <div class="mt-3 flex justify-between text-xs">
+                            <span class="text-slate-500">Uptime:</span>
+                            <span class="font-mono text-blue-400" id="stat-uptime">--</span>
+                        </div>
+                    </div>
+                    
+                    <!-- OS & Network -->
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                        <h3 class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2 flex justify-between">System <i data-lucide="hard-drive" class="w-4 h-4 text-emerald-400"></i></h3>
+                        <div class="text-sm font-medium text-white mb-1 truncate" id="stat-os-name">Loading...</div>
+                        <div class="text-xs text-slate-400" id="stat-network-ip">IP: --</div>
+                        <div class="mt-3 flex justify-between text-xs">
+                            <span class="text-slate-500">Disks:</span>
+                            <span class="font-mono text-slate-300" id="stat-disks">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="glass rounded-xl p-6 lg:col-span-3">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2 mb-4">
+                    <h2 class="text-lg font-semibold flex items-center gap-2"><i data-lucide="terminal" class="w-5 h-5 text-green-400"></i> System Output</h2>
+                    <button onclick="execute('pm2-status')" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded border border-slate-600 transition-colors">Get PM2 Status</button>
+                </div>
+                <pre id="terminal" class="bg-slate-900 border border-slate-800 p-4 rounded-lg font-mono text-xs overflow-x-auto text-slate-300 h-64 whitespace-pre-wrap">System ready. Waiting for commands...</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+        let currentPass = '';
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('password').value;
+            
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pass, action: 'verify' })
+                });
+                
+                if (res.ok) {
+                    currentPass = pass;
+                    document.getElementById('password').value = '';
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('dashboard-screen').classList.remove('hidden');
+                    document.getElementById('dashboard-screen').classList.add('flex');
+                    refreshModules();
+                    refreshPm2Status();
+                    fetchSystemStats();
+                    statsInterval = setInterval(() => {
+                        fetchSystemStats();
+                        refreshPm2Status();
+                        refreshModules();
+                    }, 5000);
+                } else {
+                    document.getElementById('login-error').classList.remove('hidden');
+                }
+            } catch (err) {
+                alert('Connection error');
+            }
+        });
+
+        function logout() {
+            currentPass = '';
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('flex');
+            logTerminal('Logged out.');
+            if (statsInterval) clearInterval(statsInterval);
+        }
+
+        function logTerminal(text) {
+            const term = document.getElementById('terminal');
+            term.textContent = `> ${new Date().toLocaleTimeString()}\n${text}\n\n` + term.textContent;
+        }
+
+        let statsInterval = null;
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function formatUptime(seconds) {
+            const d = Math.floor(seconds / (3600*24));
+            const h = Math.floor(seconds % (3600*24) / 3600);
+            const m = Math.floor(seconds % 3600 / 60);
+            return `${d}d ${h}h ${m}m`;
+        }
+
+        function formatModuleUptime(secs) {
+            if (!secs) return '--';
+            if (secs < 60) return `${Math.floor(secs)}s`;
+            if (secs < 3600) return `${Math.floor(secs/60)}m`;
+            return `${Math.floor(secs/3600)}h ${Math.floor((secs%3600)/60)}m`;
+        }
+
+        // ── Module Cards ──
+        async function refreshModules() {
+            if (!currentPass) return;
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass, action: 'get-modules' })
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    if (!data.success) return;
+                    
+                    const grid = document.getElementById('modules-grid');
+                    grid.innerHTML = '';
+                    
+                    const icons = {
+                        pokemon: '🎮', fun: '🎭', moderation: '🛡️', family: '👨‍👩‍👧',
+                        meme: '😂', reactions: '💫', snipe: '🎯', utility: '🔧'
+                    };
+                    
+                    for (const mod of data.modules) {
+                        const isOnline = mod.online;
+                        const color = isOnline 
+                            ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' 
+                            : 'bg-slate-800 text-slate-500 border-slate-700';
+                        const glowClass = isOnline ? 'online-glow' : '';
+                        const icon = icons[mod.category] || '📦';
+                        
+                        grid.innerHTML += `
+                            <div class="module-card flex flex-col gap-2 p-3 rounded-lg border ${color} ${glowClass} items-center text-center">
+                                <span class="text-2xl">${icon}</span>
+                                <span class="font-bold text-sm uppercase tracking-wider">${mod.category}</span>
+                                <div class="flex flex-col gap-0.5">
+                                    <span class="text-xs font-semibold ${isOnline ? 'text-emerald-300' : 'text-slate-500'}">${isOnline ? 'ONLINE' : 'OFFLINE'}</span>
+                                    ${isOnline ? `<span class="text-[10px] opacity-70">${mod.commands} Commands</span>` : ''}
+                                    ${isOnline ? `<span class="text-[10px] opacity-50">Up: ${formatModuleUptime(mod.uptime)}</span>` : ''}
+                                </div>
+                                <div class="flex gap-1 w-full mt-1">
+                                    <button onclick="toggleModule('${mod.category}', ${!isOnline})" class="flex-1 text-xs bg-slate-900/50 hover:bg-slate-900 px-2 py-1.5 rounded transition-colors border border-slate-700 font-medium">
+                                        ${isOnline ? 'Stop' : 'Start'}
+                                    </button>
+                                    ${isOnline ? `<button onclick="restartModule('${mod.category}')" class="text-xs bg-slate-900/50 hover:bg-slate-900 px-2 py-1.5 rounded transition-colors border border-slate-700" title="Restart">
+                                        🔄
+                                    </button>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (err) {
+                console.error('Module fetch error:', err);
+            }
+        }
+
+        async function toggleModule(moduleName, targetState) {
+            if (!currentPass) return;
+            logTerminal(`${targetState ? 'Starting' : 'Stopping'} ${moduleName} module...`);
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass, action: 'module-toggle', moduleName, targetState })
+                });
+                const json = await res.json();
+                logTerminal(json.output || json.error || 'Done');
+                setTimeout(refreshModules, 1500);
+                setTimeout(refreshPm2Status, 1500);
+            } catch (err) {
+                logTerminal(`Error: ${err.message}`);
+            }
+        }
+
+        async function restartModule(moduleName) {
+            if (!currentPass) return;
+            logTerminal(`Restarting ${moduleName} module...`);
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass, action: 'module-restart', moduleName })
+                });
+                const json = await res.json();
+                logTerminal(json.output || json.error || 'Done');
+                setTimeout(refreshModules, 2000);
+                setTimeout(refreshPm2Status, 2000);
+            } catch (err) {
+                logTerminal(`Error: ${err.message}`);
+            }
+        }
+
+        // ── PM2 Process Cards ──
+        async function refreshPm2Status() {
+            if (!currentPass) return;
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass, action: 'pm2-jlist' })
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    if (!data.success) return;
+                    
+                    const grid = document.getElementById('pm2-grid');
+                    grid.innerHTML = '';
+                    
+                    for (const proc of data.processes) {
+                        const isOnline = proc.pm2_env.status === 'online';
+                        const color = isOnline ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' : 'bg-slate-800 text-slate-500 border-slate-700';
+                        const btnText = isOnline ? 'Stop' : 'Start';
+                        const cpu = proc.monit ? proc.monit.cpu : 0;
+                        const mem = proc.monit ? formatBytes(proc.monit.memory) : '0 B';
+                        const restarts = proc.pm2_env.restart_time;
+
+                        grid.innerHTML += `
+                            <div class="flex flex-col gap-2 p-3 rounded-lg border ${color} transition-all items-center text-center">
+                                <span class="font-bold text-sm truncate w-full" title="${proc.name}">${proc.name}</span>
+                                <div class="flex flex-col gap-0.5 w-full text-center">
+                                    <span class="text-xs font-semibold ${isOnline ? 'text-purple-300' : 'text-slate-500'}">${proc.pm2_env.status.toUpperCase()}</span>
+                                    <span class="text-[10px] opacity-70">CPU: ${cpu}% | RAM: ${mem}</span>
+                                    <span class="text-[10px] opacity-50">Restarts: ${restarts}</span>
+                                </div>
+                                <button onclick="execute('pm2-service-toggle', { processName: '${proc.name}', targetPm2State: ${!isOnline} })" class="mt-1 text-xs bg-slate-900/50 hover:bg-slate-900 px-3 py-1.5 rounded transition-colors w-full border border-slate-700 font-medium tracking-wide">
+                                    ${btnText}
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (err) {
+                console.error("PM2 fetch error:", err);
+            }
+        }
+
+        async function fetchSystemStats() {
+            if (!currentPass) return;
+            try {
+                const res = await fetch('/api/control-centre/system-stats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass })
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    if (!data.success) return;
+                    const stats = data.stats;
+                    
+                    // CPU
+                    document.getElementById('stat-cpu-load').textContent = `${stats.cpu.load}%`;
+                    document.getElementById('stat-cpu-model').textContent = `${stats.cpu.manufacturer} ${stats.cpu.brand} (${stats.cpu.cores} Core, ${stats.cpu.speed}GHz)`;
+                    document.getElementById('stat-cpu-temp').textContent = `${stats.cpu.temp}°C`;
+                    if (stats.cpu.temp > 80) document.getElementById('stat-cpu-temp').className = 'font-mono text-red-500 font-bold';
+                    else if (stats.cpu.temp > 60) document.getElementById('stat-cpu-temp').className = 'font-mono text-orange-400';
+                    else document.getElementById('stat-cpu-temp').className = 'font-mono text-emerald-400';
+
+                    // Memory
+                    const totalRam = formatBytes(stats.memory.total);
+                    const usedRam = formatBytes(stats.memory.used);
+                    const freeRam = formatBytes(stats.memory.free);
+                    const ramPercent = (stats.memory.used / stats.memory.total) * 100;
+                    
+                    document.getElementById('stat-ram-usage').textContent = `${usedRam} / ${totalRam}`;
+                    document.getElementById('stat-ram-free').textContent = freeRam;
+                    document.getElementById('stat-ram-bar').style.width = `${ramPercent}%`;
+                    if (ramPercent > 85) document.getElementById('stat-ram-bar').className = 'bg-red-500 h-1.5 rounded-full transition-all duration-500';
+                    else document.getElementById('stat-ram-bar').className = 'bg-emerald-500 h-1.5 rounded-full transition-all duration-500';
+
+                    // Power
+                    if (stats.battery.hasBattery) {
+                        document.getElementById('stat-battery-percent').textContent = `${stats.battery.percent}%`;
+                        document.getElementById('stat-battery-status').textContent = stats.battery.isCharging ? 'Charging (AC Power)' : 'On Battery (Discharging)';
+                        if (!stats.battery.isCharging && stats.battery.percent < 20) {
+                            document.getElementById('stat-battery-percent').className = 'text-2xl font-bold text-red-500 mb-1 animate-pulse';
+                        } else {
+                            document.getElementById('stat-battery-percent').className = 'text-2xl font-bold text-white mb-1';
+                        }
+                    } else {
+                        document.getElementById('stat-battery-percent').textContent = 'AC';
+                        document.getElementById('stat-battery-status').textContent = 'Desktop / No Battery';
+                    }
+                    document.getElementById('stat-uptime').textContent = formatUptime(stats.os.uptime);
+
+                    // OS & Network
+                    document.getElementById('stat-os-name').textContent = `${stats.os.distro} ${stats.os.release}`;
+                    document.getElementById('stat-network-ip').textContent = `IP: ${stats.network.length > 0 ? stats.network[0].ip4 : 'Offline'}`;
+                    document.getElementById('stat-disks').textContent = `${stats.disks.length} Drives Found`;
+                }
+            } catch (err) {
+                console.error("Stats fetch error:", err);
+            }
+        }
+
+        async function execute(action, data = {}) {
+            if (!currentPass) return;
+            logTerminal(`Executing ${action}...`);
+            
+            try {
+                const res = await fetch('/api/control-centre/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass, action, ...data })
+                });
+                
+                if (res.status === 401) {
+                    logout();
+                    return;
+                }
+                
+                const json = await res.json();
+                if (json.output) logTerminal(json.output);
+                else if (json.message) logTerminal(`[SYS]: ${json.message}`);
+                else if (json.success) logTerminal(`Success: ${action}`);
+                else logTerminal(`Error: ${json.error || 'Failed'}`);
+                
+                if (action === 'pm2-service-toggle') {
+                    setTimeout(refreshPm2Status, 1000);
+                    setTimeout(refreshModules, 1500);
+                }
+            } catch (err) {
+                logTerminal(`Network Error: ${err.message}`);
+            }
+        }
+    </script>
+</body>
+</html>

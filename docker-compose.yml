@@ -1,0 +1,46 @@
+services:
+  kitsune-bot:
+    build: .
+    container_name: kitsune-bot
+    restart: unless-stopped
+    
+    # Shared memory size for Chromium (prevents crashes)
+    shm_size: '1gb'
+    
+    ports:
+      - "3100:3100"   # Kitsune Brain API
+      - "3200:3200"   # Global Message Receiver (remote bots send logs here)
+      - "8000:8000"   # Control Centre Web UI
+      # 3300 is internal-only (WhatsApp RPC), no need to expose
+
+    volumes:
+      # Persistent session data (keeps you logged in between restarts)
+      - ./.wwebjs_auth:/app/.wwebjs_auth
+      - ./.wwebjs_cache:/app/.wwebjs_cache
+      
+      # Persistent data & databases
+      - ./data:/app/data
+      - ./db:/app/db
+      - ./logs:/app/logs
+      - ./store-data-for-use:/app/store-data-for-use
+      
+      # Global message receiver storage
+      - ./global-messages:/app/global-messages
+      
+      # Environment config (bind your .env file)
+      - ./.env:/app/.env:ro
+
+    environment:
+      - NODE_ENV=production
+      - ENABLE_REMOTE_LOGGING=true
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    
+    # Graceful shutdown timeout (give PM2 time to stop all processes)
+    stop_grace_period: 30s
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
