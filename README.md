@@ -3,6 +3,7 @@
 This is a WhatsApp bot built using Node.js and `whatsapp-web.js`. It functions as a participant in group chats and provides an AI conversational agent (using Groq LLMs), a Pokemon mini-game, and various utility commands.
 
 ## Table of Contents
+
 1. [History](#history)
 2. [How to Set It Up](#how-to-set-it-up)
 3. [Environment Variables Guide](#environment-variables-guide)
@@ -24,7 +25,7 @@ The creation of this bot started when my friends and I made a WhatsApp group cha
 
 After a few days, I noticed people in the group were talking a lot about Pokémon. Inspired by Discord bots like Pokétwo and Dank Memer, as well as Pokémon GO and Pokémon TCG, I combined all those ideas and created a fully-fledged Pokémon feature for the bot.
 
-At that time, the bot was named **Celestia**. I later added \"family codes\" to create families within the group chat (inspired by the Discord marriage bot). 
+At that time, the bot was named **Celestia**. I later added \"family codes\" to create families within the group chat (inspired by the Discord marriage bot).
 
 The biggest evolution happened when I decided to add AI. That's when Celestia became **Kitsune**, inspired by an Indonesian Instagram content creator named Kitsune. I didn't want the AI to just be a tool or an assistant; I wanted it to adapt, learn from the group chat, and feel like a human participant in our conversations. I initially used Ollama, but eventually transitioned to using Ollama to refine the context and sending it to Groq for better, faster results. Soon after, I added live weather, a math tool, browser search, and other utilities.
 
@@ -35,30 +36,40 @@ Eventually, I decided to stop active development on this project because it had 
 ## How to Set It Up
 
 ### Requirements
+
 - **Node.js**: Version 18 or above is required for compatibility with modern JavaScript features.
 - **Database**: A MongoDB database connection is required for persistent state (e.g., MongoDB Atlas).
 - **LLM Key**: A Groq API key is required to power the AI conversational brain.
 
 ### Installation Steps
+
 1. Clone this repository to your local machine:
+
    ```bash
    git clone https://github.com/your-username/Kitsune-WhatsApp-Bot.git
    cd Kitsune-WhatsApp-Bot
    ```
+
 2. Install all required packages:
+
    ```bash
    npm install
    ```
+
    *(If you are on Linux, you might need to install Puppeteer dependencies like `libnss3`, `libatk1.0-0`, `libcups2`, `libxss1`, etc., so the headless Chrome browser can run properly).*
 3. Copy the `.env.example` file and rename it to `.env`:
+
    ```bash
    cp .env.example .env
    ```
+
 4. Open the `.env` file and fill in your details (see the Environment Variables Guide below).
 5. Run the bot by typing:
+
    ```bash
    npm start
    ```
+
 6. A QR code will appear in your terminal. Scan it using the WhatsApp app on your phone (under Linked Devices) to log in. The session will be saved locally in `.wwebjs_auth/` so you do not need to scan the QR code again unless you log out from your phone.
 
 ---
@@ -109,15 +120,19 @@ graph TD
 ## Detailed Component Breakdown
 
 ### 1. Main Entry Points
+
 - **`core-api.js`**: The main entry point for the application. It starts the primary Express server, connects to MongoDB, and initializes the `whatsapp-web.js` client.
 - **`wa_api_server.js`**: An internal API server that allows other scripts (like the dashboard) to send messages through the WhatsApp client programmatically.
 - **`config.js`**: Parses all environment variables from `.env` and exports them as a central configuration object used across the app.
 
 ### 2. Message Handling
+
 - **`handlers/eventHandler.js`**: The core router. Every incoming message passes through here. It checks the sender's permissions, handles rate limiting, enforces anti-link rules, and decides whether a message is a command or an AI chat message.
 
 ### 3. The Command System
+
 Located in the **`commands/`** folder. Commands are triggered by a prefix (like `-`).
+
 - **`pokemon/`**: Contains the logic for the Pokémon RPG (e.g. `catch.js`, `battle.js`, `exchange.js`, `trade.js`, `use.js`).
 - **`utility/`**: Contains helpful commands like `ping.js`, `weather.js`, or `immune.js`.
 - **`family/`**: Contains fun, social group commands like `tree.js` or `adopt.js`.
@@ -125,10 +140,12 @@ Located in the **`commands/`** folder. Commands are triggered by a prefix (like 
 - **`meme/`**: Contains commands to generate or fetch memes (`drake.js`, `son.js`, `reddit.js`).
 
 ### 4. The AI Brain (`kitsune-brain/`)
+
 - **`server.js`**: The separate Express server for the AI. It builds the prompt context (time, news, memory), talks to the Groq API, processes tool calls, and returns text.
 - **`ingest-datasets.js`**: A utility script used to load conversational datasets into the AI's persona engine.
 
 ### 5. Utility & Tooling (`utils/`)
+
 - **`weatherTool.js`**: Contains the schemas and functions the AI uses to fetch real-time data (Open-Meteo, Google News RSS, DuckDuckGo, Wikipedia, MathJS).
 - **`introspectTool.js`**: Gives the AI the ability to read its own source code files and perform self-diagnosis.
 - **`internalAuth.js`**: Express middleware that secures the internal APIs using a token.
@@ -137,6 +154,7 @@ Located in the **`commands/`** folder. Commands are triggered by a prefix (like 
 - **`redditMemeHelper.js`**: Fetches random memes from Reddit for the meme commands.
 
 ### 6. Data Storage & State (`store/`)
+
 - **`db.js`**: Handles the connection to MongoDB.
 - **`pokemonStore.js`**: Manages all MongoDB database operations for the Pokémon game (saving players, updating wallets, checking items).
 - **`messageLogger.js`**: Logs group and private chat histories to local JSON files so the AI can read recent context.
@@ -144,6 +162,7 @@ Located in the **`commands/`** folder. Commands are triggered by a prefix (like 
 - **`personaEngine.js`**: Interfaces with SQLite to query personality traits and knowledge blocks for the AI.
 
 ### 7. Background Scripts (`scripts/`)
+
 - **`control-centre-api.js`**: The backend API for the external web dashboard (allowing remote control of the bot).
 - **`network-watchdog.js`**: A background script that monitors the server's internet and power status. It pauses bot activities if the network drops.
 - **`receiver.js`**: Receives remote logs and webhook events.
@@ -190,12 +209,14 @@ sequenceDiagram
 This section lists the various commands available to end-users inside the WhatsApp chat.
 
 ### Utility Commands
+
 - **`-ping`**: Responds with "Pong!" and the latency speed.
 - **`-weather [city]`**: Returns the current weather conditions for the specified location.
 - **`-math [expression]`**: Calculates complex mathematical expressions safely.
 - **`-immune`**: Temporarily grants the user immunity from automated moderation kicks.
 
 ### Pokemon RPG Commands
+
 - **`-catch [name]`**: Attempts to catch a spawned Pokémon if the guessed name is correct.
 - **`-battle [@user]`**: Challenges another user to a turn-based Pokémon battle.
 - **`-exchange [card]`**: Sells a duplicate Pokémon card for in-game currency.
@@ -204,10 +225,12 @@ This section lists the various commands available to end-users inside the WhatsA
 - **`-use [item]`**: Applies an item (like a healing potion) to an active Pokémon.
 
 ### Meme Commands
+
 - **`-drake [text1] | [text2]`**: Generates a standard two-panel Drake meme.
 - **`-reddit [subreddit]`**: Fetches a random top meme image from the specified subreddit.
 
 ### Admin Commands
+
 - **`-kick [@user]`**: Removes a user from the WhatsApp group.
 - **`-ban [@user]`**: Removes a user and prevents them from rejoining.
 - **`-warn [@user] [reason]`**: Issues an official warning to a user and logs it in the database.
@@ -219,7 +242,9 @@ This section lists the various commands available to end-users inside the WhatsA
 To help developers understand the underlying data, here are examples of how information is stored.
 
 ### Pokemon Database (Local JSON)
+
 The bot reads static data from `data/pokemon.json`. A typical entry looks like this:
+
 ```json
 {
   "id": 25,
@@ -236,7 +261,9 @@ The bot reads static data from `data/pokemon.json`. A typical entry looks like t
 ```
 
 ### Player Wallet (MongoDB)
+
 Player progress is saved in MongoDB. The Mongoose schema structure resembles:
+
 ```javascript
 const playerSchema = new mongoose.Schema({
   userId: { type: String, required: true },
@@ -258,13 +285,17 @@ const playerSchema = new mongoose.Schema({
 ## Advanced Deployment Options
 
 ### Using PM2 (Recommended for Production)
+
 To ensure the bot stays online 24/7 and restarts automatically if it crashes, use PM2.
+
 1. Install PM2 globally: `npm install -g pm2`
 2. Run the included setup script: `./scripts/setup-pm2.sh`
 3. Check the logs: `pm2 logs`
 
 ### Using Docker
+
 A Dockerfile and `docker-compose.yml` are provided for containerized deployment.
+
 1. Ensure Docker and Docker Compose are installed.
 2. Run: `docker-compose up -d --build`
 3. View logs with: `docker-compose logs -f`
@@ -276,13 +307,16 @@ A Dockerfile and `docker-compose.yml` are provided for containerized deployment.
 If you want to modify the bot, follow these guidelines:
 
 ### Adding a New Command
-To add a new command, create a new JavaScript file in the `commands/` folder. Look at existing files for an example. 
+
+To add a new command, create a new JavaScript file in the `commands/` folder. Look at existing files for an example.
 Each command file must export an object containing:
+
 - `name`: The trigger word for the command.
 - `aliases`: An array of alternative trigger words (optional).
 - `execute(message, args, client)`: The function that runs when the user types the command.
 
 Example of a basic command:
+
 ```javascript
 module.exports = {
     name: 'hello',
@@ -294,7 +328,9 @@ module.exports = {
 ```
 
 ### Adding a New AI Tool
+
 If you want the AI to be able to do something new (like check a new API):
+
 1. Write the function inside the `utils/` folder.
 2. Define the tool schema required by the LLM in the same file. The schema must match the OpenAI/Groq function calling format.
 3. Import the function and schema into `kitsune-brain/server.js`.
@@ -322,6 +358,7 @@ A: Yes. The `kitsune-brain/server.js` file has underlying support for multiple L
 ## Policies & Documentation
 
 Please review the following documents before using or contributing to the bot:
+
 - **[Code of Conduct](CODE_OF_CONDUCT.md)**: Our standards for community interaction and contribution.
 - **[Security Policy](SECURITY.md)**: How to report vulnerabilities and our supported versions.
 - **[Privacy Policy](PRIVACY.md)**: How data is collected and handled by the bot.

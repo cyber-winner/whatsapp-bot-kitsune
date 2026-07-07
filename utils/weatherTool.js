@@ -172,9 +172,9 @@ async function getLocalNews(query = DEFAULT_LOCALITY, count = 5, category = null
       const cat = NEWS_CATEGORIES[category.toLowerCase()];
       label = cat.label;
       if (cat.id) {
-        rssUrl = `https:
+        rssUrl = `https://news.google.com/rss/topics/${cat.id}?hl=en-IN&gl=IN&ceid=IN:en`;
       } else {
-        
+        // Headlines fallback
         rssUrl = `https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en`;
       }
     } else {
