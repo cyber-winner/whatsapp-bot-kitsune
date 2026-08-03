@@ -534,7 +534,7 @@ app.get('/api/control-centre/download-code', async (req, res) => {
     const botDir = path.join(__dirname, '..');
     
     
-    const cmd = `cd "${botDir}" && zip -r "${zipPath}" . -x "*.git*" "*node_modules*" "*.wwebjs_auth*" "*.wwebjs_cache*" "*frontend/node_modules*" "*.env*" "*.zip" "*.tar.gz" "global-messages/*" "store-data-for-use/*" "downloads/*" "scratch/*" "logs/*" "db/*" "*.deb" "*.csv"`;
+    const cmd = `cd "${botDir}" && zip -r "${zipPath}" . -x "*.git*" "*node_modules*" "*baileys_auth*" "*frontend/node_modules*" "*.env*" "*.zip" "*.tar.gz" "global-messages/*" "store-data-for-use/*" "downloads/*" "scratch/*" "logs/*" "db/*" "*.deb" "*.csv"`;
     
     exec(cmd, { maxBuffer: 1024 * 1024 * 10 }, (err) => {
         if (err) {

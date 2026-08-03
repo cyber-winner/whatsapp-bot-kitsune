@@ -11,7 +11,10 @@ const {
 async function fetchGif(category) {
   try {
     const res = await axios.get(`${GIF_API_BASE}/${category}`, {
-      timeout: 8000
+      timeout: 8000,
+      headers: {
+        'User-Agent': 'KitsuneBot/1.0.0'
+      }
     });
     if (res.data && res.data.results && res.data.results.length > 0) {
       const result = res.data.results[0];
@@ -32,7 +35,10 @@ async function gifToMp4Base64(gifUrl) {
   try {
     const response = await axios.get(gifUrl, {
       responseType: 'arraybuffer',
-      timeout: 15000
+      timeout: 15000,
+      headers: {
+        'User-Agent': 'KitsuneBot/1.0.0'
+      }
     });
     fs.writeFileSync(tmpGif, response.data);
     await new Promise((resolve, reject) => {

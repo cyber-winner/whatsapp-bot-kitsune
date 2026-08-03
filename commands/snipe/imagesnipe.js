@@ -1,6 +1,6 @@
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../../utils/baileysCompat');
 const {
   getLastDeletedMedia
 } = require('../../store/snipeStore');

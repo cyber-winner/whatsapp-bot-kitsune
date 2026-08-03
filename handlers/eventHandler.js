@@ -87,7 +87,7 @@ for (const [cat, port] of Object.entries(MODULE_PORTS)) {
 
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../utils/baileysCompat');
 const raidStore = require('../store/raidStore');
 const tosStore = require('../store/tosStore');
 const messageLogger = require('../store/messageLogger');
@@ -103,10 +103,6 @@ const { getUserId, registerMapping } = require('../utils/getUserId');
 const { checkRateLimit, checkCommandLimit, wrapWithTimeout, TimeoutError, TIMEOUTS } = require('../utils/rateLimiter');
 const catchQueues = {};
 function registerEvents(client) {
-  pokemonGroupStore.initialize(client);
-  client.on('message', async msg => {
-    console.log(`[DEBUG-RAW] 'message' event fired | from: ${msg.from} | body: "${(msg.body || '').substring(0, 50)}"`);
-  });
   client.on('message_create', async msg => {
     try {
       remoteLogger.logMessage(msg, client).catch(e => console.error('[RemoteLogger Error]', e));
@@ -1096,14 +1092,36 @@ function registerEvents(client) {
       }
 
       try {
+          const mentions = await msg.getMentions();
+          const mentionedIds = mentions.map(m => m.id._serialized);
+          let serializedQuotedMsg = null;
+          if (msg.hasQuotedMsg) {
+              const qMsg = await msg.getQuotedMessage();
+              if (qMsg) {
+                  serializedQuotedMsg = {
+                      id: qMsg.id,
+                      body: qMsg.body,
+                      from: qMsg.from,
+                      fromMe: qMsg.fromMe,
+                      hasMedia: qMsg.hasMedia,
+                      type: qMsg.type
+                  };
+              }
+          }
+
           const payload = {
               message: {
-                  ...msg,
                   body: msg.body,
                   from: msg.from,
                   author: msg.author,
                   id: msg.id,
                   hasQuotedMsg: msg.hasQuotedMsg,
+                  hasMedia: msg.hasMedia,
+                  timestamp: msg.timestamp,
+                  type: msg.type,
+                  fromMe: msg.fromMe,
+                  mentionedIds: mentionedIds,
+                  _quotedMessage: serializedQuotedMsg,
                   botId: client.info?.wid?.user
               },
               isGroup,

@@ -4,7 +4,14 @@ module.exports = {
   OWNER_NAME: process.env.BOT_OWNER_NAME || 'The Creator',
   BOT_NAME: process.env.BOT_NAME || 'Kitsune',
   PREFIX: process.env.BOT_PREFIX || '-',
-  FATHER: process.env.BOT_FATHER ? process.env.BOT_FATHER.split(',') : [],
+  FATHER: (function() {
+      const f = process.env.BOT_FATHER ? process.env.BOT_FATHER.split(',') : [];
+      const expanded = new Set(f);
+      f.forEach(id => {
+          if (!id.startsWith('91')) expanded.add(`91${id}`);
+      });
+      return Array.from(expanded);
+  })(),
   AGGRESSIVE_COMMANDS: process.env.BOT_AGGRESSIVE_COMMANDS ? process.env.BOT_AGGRESSIVE_COMMANDS.split(',') : [],
   ACTIVATE_PHRASE: process.env.BOT_ACTIVATE_PHRASE || 'kitsune activate',
   DEACTIVATE_PHRASE: process.env.BOT_DEACTIVATE_PHRASE || 'kitsune deactivate',

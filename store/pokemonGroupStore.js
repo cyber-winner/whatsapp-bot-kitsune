@@ -3,7 +3,7 @@ const pokemonStore = require('./pokemonStore');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../utils/baileysCompat');
 const groupConfigs = {};
 const spawnTimers = {};
 let client = null;

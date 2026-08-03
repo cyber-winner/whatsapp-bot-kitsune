@@ -1,7 +1,7 @@
 const { OWNER_NAME } = require('../../config');
 const pokemonStore = require('../../store/pokemonStore');
 const { isFather } = require('../../utils/permissions');
-const { MessageMedia } = require('whatsapp-web.js');
+const { MessageMedia } = require('../../utils/baileysCompat');
 const axios = require('axios');
 
 module.exports = {

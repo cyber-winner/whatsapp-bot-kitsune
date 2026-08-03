@@ -7,7 +7,7 @@ const {
 const axios = require('axios');
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../../utils/baileysCompat');
 const battleStore = require('../../store/battleStore');
 const { getUserId } = require('../../utils/getUserId');
 const activeChallenges = new Map();

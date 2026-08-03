@@ -1,18 +1,58 @@
+const fs = require('fs');
+const path = require('path');
 
-const lidToPhoneMap = {};
-const phoneToLidMap = {};
+const MAPPINGS_FILE = path.join(__dirname, '..', 'store-data-for-use', 'lid_mappings.json');
+let lidToPhoneMap = {};
+let phoneToLidMap = {};
+
+// Auto-load on startup
+function loadMappingsFromFile() {
+    try {
+        if (fs.existsSync(MAPPINGS_FILE)) {
+            const data = fs.readFileSync(MAPPINGS_FILE, 'utf8');
+            lidToPhoneMap = JSON.parse(data);
+            phoneToLidMap = {};
+            for (const [lid, phone] of Object.entries(lidToPhoneMap)) {
+                phoneToLidMap[phone] = lid;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load LID mappings:', e.message);
+    }
+}
+loadMappingsFromFile();
+
+// Watch for cross-process updates
+fs.watchFile(MAPPINGS_FILE, (curr, prev) => {
+    if (curr.mtime > prev.mtime) {
+        loadMappingsFromFile();
+    }
+});
+
+function saveMappings() {
+    try {
+        fs.writeFileSync(MAPPINGS_FILE, JSON.stringify(lidToPhoneMap, null, 2));
+    } catch (e) {
+        console.error('Failed to save LID mappings:', e.message);
+    }
+}
 
 function registerMapping(lid, phoneNumber) {
     if (!lid || !phoneNumber || lid === phoneNumber) return;
+    if (lidToPhoneMap[lid] === phoneNumber) return; // Already mapped
+    
     lidToPhoneMap[lid] = phoneNumber;
     phoneToLidMap[phoneNumber] = lid;
+    saveMappings();
 }
 
 function getPhoneFromLid(lid) {
+    if (lid === '73951434776709') return '919332723557'; // Hardcoded for FATHER
     return lidToPhoneMap[lid] || null;
 }
 
 function getLidFromPhone(phone) {
+    if (phone === '919332723557') return '73951434776709'; // Hardcoded for FATHER
     return phoneToLidMap[phone] || null;
 }
 

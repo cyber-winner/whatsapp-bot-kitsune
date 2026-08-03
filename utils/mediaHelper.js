@@ -1,6 +1,6 @@
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('./baileysCompat');
 const {
   gifToMp4Base64
 } = require('./gifApi');

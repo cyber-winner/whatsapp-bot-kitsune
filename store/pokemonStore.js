@@ -788,9 +788,13 @@ async function getTrainerLeaderboard() {
   const {
     FATHER
   } = require('../config');
+  const excludeIds = [];
+  FATHER.forEach(f => {
+    excludeIds.push(f, `${f}@c.us`, `${f}@s.whatsapp.net`);
+  });
   const entries = await PokemonEntry.find({
     userId: {
-      $nin: FATHER
+      $nin: excludeIds
     }
   });
   const userStats = {};

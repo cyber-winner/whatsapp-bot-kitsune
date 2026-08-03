@@ -2,7 +2,7 @@ const { OWNER_NAME } = require('../../config');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../../utils/baileysCompat');
 const {
   getUserPokedex,
   getPokemonDetails,

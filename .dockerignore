@@ -8,8 +8,7 @@ node_modules
 frontend/node_modules
 
 # Session data (must be mounted as volume, not baked into image)
-.wwebjs_auth
-.wwebjs_cache
+baileys_auth
 
 # Runtime data (mounted as volumes)
 logs

@@ -1,6 +1,7 @@
 # ============================================
 #  🦊 Kitsune WhatsApp Bot — Docker Image
 #  Multi-service container via PM2
+#  Baileys Edition (no Chrome/Puppeteer)
 # ============================================
 
 # Stage 1: Build frontend (if needed)
@@ -21,34 +22,14 @@ LABEL description="Kitsune — Premium WhatsApp Bot with AI, Pokémon, moderatio
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies for Puppeteer (Chromium), build tools for native modules
+# Install minimal system dependencies (build tools for native modules only)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    chromium \
-    fonts-ipafont-gothic \
-    fonts-wqy-zenhei \
-    fonts-thai-tlwg \
-    fonts-kacst \
-    fonts-freefont-ttf \
-    fonts-noto-color-emoji \
-    libxss1 \
-    libnss3 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libgbm-dev \
-    libasound2 \
-    libdrm2 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
     dumb-init \
     procps \
     zip \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure Puppeteer to use system Chromium (skip downloading its own)
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
-    NODE_ENV=production \
+ENV NODE_ENV=production \
     ENABLE_REMOTE_LOGGING=true
 
 # Install PM2 globally for multi-process management
@@ -58,8 +39,7 @@ RUN npm install -g pm2
 COPY package*.json ./
 
 # Install Node.js dependencies (production + build native modules)
-RUN npm ci --ignore-scripts && \
-    npx puppeteer browsers install chrome 2>/dev/null || true
+RUN npm ci --ignore-scripts
 
 # Rebuild native modules (better-sqlite3 needs compilation)
 RUN npm rebuild better-sqlite3 || true
@@ -76,8 +56,7 @@ RUN mkdir -p \
     data \
     scratch \
     db \
-    .wwebjs_auth \
-    .wwebjs_cache \
+    baileys_auth \
     global-messages \
     store-data-for-use
 

@@ -36,11 +36,9 @@ dist/
 wa_hoyo_tokens.json
 
 # =========================
-# WhatsApp Auth & Cache
+# WhatsApp Auth (Baileys)
 # =========================
-.wwebjs_auth/
-.wwebjs_cache/
-RemoteAuth-*/
+baileys_auth/
 
 # =========================
 # User & Bot Data (PERSONAL)

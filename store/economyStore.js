@@ -520,9 +520,13 @@ async function getBalTop(limit = 10) {
   const {
     FATHER
   } = require('../config');
+  const excludeIds = [];
+  FATHER.forEach(f => {
+    excludeIds.push(f, `${f}@c.us`, `${f}@s.whatsapp.net`);
+  });
   return PlayerWallet.find({
     userId: {
-      $nin: FATHER
+      $nin: excludeIds
     }
   }).sort({
     pokecoins: -1
@@ -532,9 +536,13 @@ async function getCrystalTop(limit = 10) {
   const {
     FATHER
   } = require('../config');
+  const excludeIds = [];
+  FATHER.forEach(f => {
+    excludeIds.push(f, `${f}@c.us`, `${f}@s.whatsapp.net`);
+  });
   return PlayerWallet.find({
     userId: {
-      $nin: FATHER
+      $nin: excludeIds
     }
   }).sort({
     radiantCrystals: -1

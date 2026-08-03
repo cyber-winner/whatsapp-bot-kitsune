@@ -88,6 +88,9 @@ class MockMessage {
     constructor(data) {
         Object.assign(this, data);
         if (!this.id) this.id = { _serialized: data.messageId || 'unknown' };
+        if (data._quotedMessage) {
+            this._quotedMessage = data._quotedMessage;
+        }
     }
     async reply(text, chatId, options = {}) {
         try {
@@ -121,8 +124,8 @@ class MockMessage {
         return mentions;
     }
     async getQuotedMessage() {
-        console.warn(`[${CATEGORY}-API] getQuotedMessage() not implemented over RPC`);
-        return null;
+        if (!this.hasQuotedMsg || !this._quotedMessage) return null;
+        return new MockMessage(this._quotedMessage);
     }
 }
 

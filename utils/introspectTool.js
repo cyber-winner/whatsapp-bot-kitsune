@@ -63,7 +63,7 @@ function listDirectory(rel = '') {
 function getArchitecture() {
   return JSON.stringify({
     name: 'Kitsune WhatsApp Bot v2.0 Microservices', creator: OWNER_NAME,
-    services: { 'celestia-wa-bot':'WA Client (puppeteer)','kitsune-brain:3100':'AI Brain (Groq+tools+persona)','core-api:3400':'Command hub',
+    services: { 'celestia-wa-bot':'WA Client (baileys)','kitsune-brain:3100':'AI Brain (Groq+tools+persona)','core-api:3400':'Command hub',
       'receiver:3200':'Remote logger','watchdog':'Network monitor','control-centre':'Web panel','autosync':'Git sync',
       'pokemon:3401':'Pokemon','fun:3402':'Fun','moderation:3403':'Mod','family:3404':'Family','meme:3405':'Meme','reactions:3406':'Reactions','snipe:3407':'Snipe','utility:3408':'Utility'},
     ai_tools: ['weather','datetime','news','fifa','web_search','url_reader','math','calculus','introspect','self_diagnosis'],

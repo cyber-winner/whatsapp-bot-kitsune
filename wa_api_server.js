@@ -1,5 +1,5 @@
 const express = require('express');
-const { MessageMedia } = require('whatsapp-web.js');
+const { MessageMedia } = require('./utils/baileysCompat');
 const { requireInternalAuth } = require('./utils/internalAuth');
 
 function reviveMedia(obj) {
@@ -125,28 +125,18 @@ function startWaApiServer(client, port = 3300) {
 
             const contact = await client.getContactById(contactId);
             
-            const { registerMapping } = require('./utils/getUserId');
+            const { registerMapping, getPhoneFromLid } = require('./utils/getUserId');
             const serialized = contact.id?._serialized || '';
             const rawId = serialized.split('@')[0];
             const isLid = serialized.endsWith('@lid');
             
             let phoneNumber = contact.number || null;
             if (isLid) {
-                if (phoneNumber && rawId !== phoneNumber) {
+                const mappedPhone = getPhoneFromLid(rawId);
+                if (mappedPhone) {
+                    phoneNumber = mappedPhone;
+                } else if (phoneNumber && rawId !== phoneNumber) {
                     registerMapping(rawId, phoneNumber);
-                } else if (typeof client.getContactLidAndPhone === 'function') {
-                    try {
-                        const resolved = await client.getContactLidAndPhone([serialized]);
-                        if (resolved && resolved.length > 0 && resolved[0].pn) {
-                            const rawPhone = resolved[0].pn.split('@')[0];
-                            if (rawId !== rawPhone) {
-                                registerMapping(rawId, rawPhone);
-                                phoneNumber = rawPhone;
-                            }
-                        }
-                    } catch (lidErr) {
-                        console.error('[WA-API] getContactLidAndPhone failed in /getContact:', lidErr.message);
-                    }
                 }
             }
             

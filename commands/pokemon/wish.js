@@ -6,7 +6,7 @@ const {
 const axios = require('axios');
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../../utils/baileysCompat');
 const { getUserId } = require('../../utils/getUserId');
 module.exports = {
   name: 'wish',

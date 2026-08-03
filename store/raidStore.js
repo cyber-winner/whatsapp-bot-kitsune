@@ -7,7 +7,7 @@ const economyStore = require('./economyStore');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('whatsapp-web.js');
+} = require('../utils/baileysCompat');
 let globalRaid = null;
 let isAutoRaidEnabled = true;
 const activeRaids = {
