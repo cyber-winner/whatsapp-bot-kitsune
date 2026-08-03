@@ -57,7 +57,8 @@ const MODULE_PORTS = {
     meme: 3405,
     reactions: 3406,
     snipe: 3407,
-    utility: 3408
+    utility: 3408,
+    uno: 3409
 };
 
 const sharedAgent = new http.Agent({ keepAlive: true, maxSockets: Infinity, keepAliveMsecs: 1000 });

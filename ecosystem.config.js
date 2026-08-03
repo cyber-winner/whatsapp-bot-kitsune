@@ -8,6 +8,7 @@ const MODULE_CATEGORIES = [
     { name: 'kitsune-reactions',  category: 'reactions',  port: 3406 },
     { name: 'kitsune-snipe',      category: 'snipe',      port: 3407 },
     { name: 'kitsune-utility',    category: 'utility',    port: 3408 },
+    { name: 'kitsune-uno',        category: 'uno',        port: 3409 },
 ];
 
 const moduleApps = MODULE_CATEGORIES.map(mod => ({

@@ -12,7 +12,8 @@ module.exports = {
       reactions: '💫',
       utility: '🔧',
       pokemon: '⚡',
-      meme: '🎭'
+      meme: '🎭',
+      uno: '🃏'
     };
     const categoryDescriptions = {
       fun: '_Anime interactions & fun_',
@@ -21,7 +22,8 @@ module.exports = {
       reactions: '_Emoji reactions_',
       utility: '_General tools_',
       pokemon: '_Catch & collect Pokémon_',
-      meme: '_Fresh & hilarious memes_'
+      meme: '_Fresh & hilarious memes_',
+      uno: '_Play UNO game_'
     };
     if (args.length > 0) {
       const query = args[0].toLowerCase();

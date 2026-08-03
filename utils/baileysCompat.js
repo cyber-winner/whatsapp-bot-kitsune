@@ -116,7 +116,13 @@ function jidToSerialized(jid) {
 /** Convert a wwebjs-style id to a Baileys JID. */
 function serializedToJid(serialized) {
     if (!serialized) return '';
-    return serialized.replace('@c.us', '@s.whatsapp.net');
+    let jid = serialized;
+    if (jid.includes('@c.us')) jid = jid.replace('@c.us', '@s.whatsapp.net');
+    
+    // Pass LID directly without converting to phone number
+    // because some users in communities can only be messaged via their LID.
+    
+    return jid;
 }
 
 /** Extract user number from any JID format. */
@@ -493,6 +499,18 @@ function wrapSocket(sock, store) {
                 }
                 if (options.quotedMessageId) {
                     // Try to find the quoted message in the store
+                    baileysContent.quoted = store?.messages?.[targetJid]?.get(options.quotedMessageId) || undefined;
+                }
+                const sent = await sock.sendMessage(targetJid, baileysContent);
+                return wrapSentMessage(sent, targetJid);
+            } else if (typeof content === 'object' && content !== null) {
+                const baileysContent = { ...content };
+                if (options.mentions && Array.isArray(options.mentions)) {
+                    baileysContent.mentions = options.mentions.map(m =>
+                        typeof m === 'string' ? serializedToJid(m) : m
+                    );
+                }
+                if (options.quotedMessageId) {
                     baileysContent.quoted = store?.messages?.[targetJid]?.get(options.quotedMessageId) || undefined;
                 }
                 const sent = await sock.sendMessage(targetJid, baileysContent);
