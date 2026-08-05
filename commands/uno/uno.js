@@ -23,6 +23,27 @@ function getMent(id) {
     return id;
 }
 
+/**
+ * Gets a DM-able JID for a player so we can send them private messages.
+ * For LID users, resolves to their phone@s.whatsapp.net.
+ * For regular users, ensures the ID ends with @s.whatsapp.net.
+ */
+function getDmJid(playerId) {
+    if (!playerId) return null;
+    if (playerId.startsWith('bot_')) return null; // Bots don't get DMs
+    if (playerId.includes('@lid')) {
+        let raw = playerId.split('@')[0];
+        let phone = getPhoneFromLid(raw);
+        if (phone) return phone + '@s.whatsapp.net';
+        // If we can't resolve, try sending to LID directly
+        return playerId;
+    }
+    // Regular user: ensure @s.whatsapp.net suffix
+    if (playerId.includes('@c.us')) return playerId.replace('@c.us', '@s.whatsapp.net');
+    if (playerId.includes('@s.whatsapp.net')) return playerId;
+    return playerId + '@s.whatsapp.net';
+}
+
 const fs = require('fs');
 
 module.exports = {
@@ -174,21 +195,27 @@ module.exports = {
             const player = game.players.get(playerId);
             if (player.isBot) continue;
 
+            const dmJid = getDmJid(playerId);
+            if (!dmJid) continue;
+
             const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${playerId}_hand.png`);
             try {
                 await createHandImage(player.cards, handImagePath);
                 const media = MessageMedia.fromFilePath(handImagePath);
                 let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-                await client.sendMessage(game.guildID, media, { 
-                    caption: `${getPrint(playerId, game.players)}, here is your hand (${player.cards.length} cards):\n${handText}`,
-                    mentions: [playerId].map(getMent).filter(Boolean)
+                await client.sendMessage(dmJid, media, { 
+                    caption: `Your UNO hand (${player.cards.length} cards):\n${handText}`
                 });
                 fs.unlinkSync(handImagePath);
             } catch (e) {
-                console.error('Failed to send hand image to', playerId, e);
-                // Fallback to text
+                console.error('Failed to send hand DM to', playerId, e);
+                // Fallback to text in DM
                 let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-                await client.sendMessage(game.guildID, { text: `Failed to generate image. Hand for ${getPrint(playerId, game.players)}:\n${handText}`, mentions: [playerId].map(getMent).filter(Boolean) });
+                try {
+                    await client.sendMessage(dmJid, { text: `Your UNO hand:\n${handText}` });
+                } catch (e2) {
+                    console.error('Failed to send text hand DM to', playerId, e2);
+                }
             }
         }
     },
@@ -274,15 +301,18 @@ module.exports = {
             game.players.set(nextPlayerId, nextPlayer);
             await client.sendMessage(guildID, { text: `🔴 ${getPrint(nextPlayerId, game.players)} had to draw ${cardsToDrawForNext} cards and their turn is skipped!`, mentions: [nextPlayerId].map(getMent).filter(Boolean) });
             
-            // Re-send their hand since they drew cards
-            const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${nextPlayerId}_hand.png`);
-            try {
-                await createHandImage(nextPlayer.cards, handImagePath);
-                const media = MessageMedia.fromFilePath(handImagePath);
-                let handText = nextPlayer.cards.map(c => getHumanCardName(c)).join('\n');
-                await client.sendMessage(guildID, media, { caption: `${getPrint(nextPlayerId, game.players)}, you had to draw cards. New hand:\n${handText}`, mentions: [nextPlayerId].map(getMent).filter(Boolean) });
-                fs.unlinkSync(handImagePath);
-            } catch(e) {}
+            // Re-send their hand via DM since they drew cards
+            const penaltyDmJid = getDmJid(nextPlayerId);
+            if (penaltyDmJid && !game.players.get(nextPlayerId)?.isBot) {
+                const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${nextPlayerId}_hand.png`);
+                try {
+                    await createHandImage(nextPlayer.cards, handImagePath);
+                    const media = MessageMedia.fromFilePath(handImagePath);
+                    let handText = nextPlayer.cards.map(c => getHumanCardName(c)).join('\n');
+                    await client.sendMessage(penaltyDmJid, media, { caption: `You had to draw ${cardsToDrawForNext} cards. Your updated hand:\n${handText}` });
+                    fs.unlinkSync(handImagePath);
+                } catch(e) {}
+            }
         }
 
         if (skipTurn) {
@@ -293,15 +323,18 @@ module.exports = {
         game.currentPosition = nextPos;
         await game.save();
 
-        // Resend hand to the player who just played, so they see their updated hand
-        try {
-            const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${sender}_hand.png`);
-            await createHandImage(player.cards, handImagePath);
-            const media = MessageMedia.fromFilePath(handImagePath);
-            let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-            await client.sendMessage(guildID, media, { caption: `${getPrint(sender, game.players)}, you played **${getHumanCardName(parsed.card)}**. Cards left: ${player.cards.length}\n\nYour hand:\n${handText}`, mentions: [sender].map(getMent).filter(Boolean) });
-            fs.unlinkSync(handImagePath);
-        } catch(e) {}
+        // DM the player their updated hand after playing
+        const senderDmJid = getDmJid(sender);
+        if (senderDmJid) {
+            try {
+                const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${sender}_hand.png`);
+                await createHandImage(player.cards, handImagePath);
+                const media = MessageMedia.fromFilePath(handImagePath);
+                let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
+                await client.sendMessage(senderDmJid, media, { caption: `You played **${getHumanCardName(parsed.card)}**. Cards left: ${player.cards.length}\n\nYour hand:\n${handText}` });
+                fs.unlinkSync(handImagePath);
+            } catch(e) {}
+        }
 
         // Send group update
         const newPlayerId = game.playerOrder[game.currentPosition];
@@ -354,15 +387,18 @@ module.exports = {
 
         const newPlayerId = game.playerOrder[game.currentPosition];
 
-        // Dm the user their new hand
-        try {
-            const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${sender}_hand.png`);
-            await createHandImage(player.cards, handImagePath);
-            const media = MessageMedia.fromFilePath(handImagePath);
-            let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-            await client.sendMessage(guildID, media, { caption: `${getPrint(sender, game.players)}, you drew **${getHumanCardName(drawn)}**. Your turn ends.\n\nYour hand:\n${handText}`, mentions: [sender].map(getMent).filter(Boolean) });
-            fs.unlinkSync(handImagePath);
-        } catch(e) {}
+        // DM the user their new hand
+        const drawDmJid = getDmJid(sender);
+        if (drawDmJid) {
+            try {
+                const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${sender}_hand.png`);
+                await createHandImage(player.cards, handImagePath);
+                const media = MessageMedia.fromFilePath(handImagePath);
+                let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
+                await client.sendMessage(drawDmJid, media, { caption: `You drew **${getHumanCardName(drawn)}**. Your turn ends.\n\nYour hand:\n${handText}` });
+                fs.unlinkSync(handImagePath);
+            } catch(e) {}
+        }
 
         await client.sendMessage(guildID, {
             text: `${getPrint(sender, game.players)} drew a card and ended their turn.\n\nNext up: ${getPrint(newPlayerId, game.players)}!`,
@@ -379,15 +415,20 @@ module.exports = {
         let player = game.players.get(sender);
         if (!player) return message.reply('You are not in this game.');
 
+        const handDmJid = getDmJid(sender);
+        if (!handDmJid) return message.reply('Could not determine your DM address.');
+
         const handImagePath = path.join(__dirname, '..', '..', 'data', 'UNO', `tmp_${sender}_hand.png`);
         try {
             await createHandImage(player.cards, handImagePath);
             const media = MessageMedia.fromFilePath(handImagePath);
             let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-            await client.sendMessage(guildID, media, { caption: `${getPrint(sender, game.players)}, here is your current hand:\n${handText}`, mentions: [sender].map(getMent).filter(Boolean) });
+            await client.sendMessage(handDmJid, media, { caption: `Your current hand:\n${handText}` });
             fs.unlinkSync(handImagePath);
+            await message.reply('📬 Your hand has been sent to your DMs!');
         } catch(e) {
-            await message.reply('Failed to send hand.');
+            console.error('Failed to send hand DM to', sender, e);
+            await message.reply('Failed to send hand to your DMs. Make sure you have messaged the bot at least once privately.');
         }
     },
 
@@ -456,16 +497,19 @@ module.exports = {
 
         const newPlayerId = game.playerOrder[game.currentPosition];
 
-        try {
-            const { createHandImage, getHumanCardName } = require('../../utils/unoLogic');
-            const { MessageMedia } = require('../../utils/baileysCompat');
-            const handImagePath = require('path').join(__dirname, '..', '..', 'data', 'UNO', `tmp_${playerId}_hand.png`);
-            await createHandImage(player.cards, handImagePath);
-            const media = MessageMedia.fromFilePath(handImagePath);
-            let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
-            await client.sendMessage(guildID, media, { caption: `${getPrint(playerId, game.players)}, you had no playable cards, so you auto-drew **${getHumanCardName(drawn)}**. Your turn ends.\n\nYour hand:\n${handText}`, mentions: [playerId].map(getMent).filter(Boolean) });
-            require('fs').unlinkSync(handImagePath);
-        } catch(e) {}
+        const autoDrawDmJid = getDmJid(playerId);
+        if (autoDrawDmJid) {
+            try {
+                const { createHandImage, getHumanCardName } = require('../../utils/unoLogic');
+                const { MessageMedia } = require('../../utils/baileysCompat');
+                const handImagePath = require('path').join(__dirname, '..', '..', 'data', 'UNO', `tmp_${playerId}_hand.png`);
+                await createHandImage(player.cards, handImagePath);
+                const media = MessageMedia.fromFilePath(handImagePath);
+                let handText = player.cards.map(c => getHumanCardName(c)).join('\n');
+                await client.sendMessage(autoDrawDmJid, media, { caption: `You had no playable cards, so you auto-drew **${getHumanCardName(drawn)}**. Your turn ends.\n\nYour hand:\n${handText}` });
+                require('fs').unlinkSync(handImagePath);
+            } catch(e) {}
+        }
 
         await client.sendMessage(guildID, {
             text: `${getPrint(playerId, game.players)} was forced to draw a card and ended their turn.\n\nNext up: ${getPrint(newPlayerId, game.players)}!`,
