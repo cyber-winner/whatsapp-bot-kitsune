@@ -3,7 +3,7 @@ const { MessageMedia } = require('../../utils/baileysCompat');
 const { buildDeck, parseCardInput, getHumanCardName, matchCards, createHandImage, WILDS, COLORS } = require('../../utils/unoLogic');
 const path = require('path');
 
-const { getPhoneFromLid } = require('../../utils/getUserId');
+const { getPhoneFromLid, getLidFromPhone } = require('../../utils/getUserId');
 function getPrint(id, players) {
     if (!id) return '';
     if (players && players.has(id) && players.get(id).isBot) return players.get(id).name;
@@ -25,21 +25,32 @@ function getMent(id) {
 
 /**
  * Gets a DM-able JID for a player so we can send them private messages.
- * For LID users, resolves to their phone@s.whatsapp.net.
- * For regular users, ensures the ID ends with @s.whatsapp.net.
+ * For community (LID) users, sends via LID directly since some users
+ * can only be messaged via their LID in communities.
+ * For phone-based users, checks for a known LID first (preferred for
+ * community contexts), then falls back to phone@s.whatsapp.net.
  */
 function getDmJid(playerId) {
     if (!playerId) return null;
     if (playerId.startsWith('bot_')) return null; // Bots don't get DMs
     if (playerId.includes('@lid')) {
-        let raw = playerId.split('@')[0];
-        let phone = getPhoneFromLid(raw);
-        if (phone) return phone + '@s.whatsapp.net';
-        // If we can't resolve, try sending to LID directly
+        // Community user — send via LID directly
+        // (some users can only be messaged via their LID)
+        console.log(`[UNO-DM] Using LID directly for DM: ${playerId}`);
         return playerId;
     }
-    // Regular user: ensure @s.whatsapp.net suffix
-    if (playerId.includes('@c.us')) return playerId.replace('@c.us', '@s.whatsapp.net');
+    // Phone-based user — check if they have a known LID (prefer LID for community users)
+    let raw = playerId.split('@')[0];
+    let lid = getLidFromPhone(raw);
+    if (lid) {
+        console.log(`[UNO-DM] Resolved phone ${raw} to LID ${lid}, using LID for DM`);
+        return lid + '@lid';
+    }
+    // No LID found, use phone number
+    if (playerId.includes('@c.us')) {
+        console.log(`[UNO-DM] Using phone for DM: ${playerId.replace('@c.us', '@s.whatsapp.net')}`);
+        return playerId.replace('@c.us', '@s.whatsapp.net');
+    }
     if (playerId.includes('@s.whatsapp.net')) return playerId;
     return playerId + '@s.whatsapp.net';
 }
