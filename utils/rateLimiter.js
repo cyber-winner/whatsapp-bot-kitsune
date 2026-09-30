@@ -1,8 +1,15 @@
+/**
+ * rateLimiter.js - Comprehensive rate limiting & anti-spam burst protection.
+ */
 
 const { FATHER } = require('../config');
 
-
-
+// Configurable message burst threshold defaults: 4 messages within 2 seconds (2000ms)
+const BURST_CONFIG = {
+    maxHits: Number(process.env.BURST_MAX_MESSAGES) || 4,
+    windowMs: Number(process.env.BURST_WINDOW_MS) || 2000,
+    message: '⚠️ *Anti-Spam Alert:* Excessive message burst detected! Please slow down.'
+};
 
 const CATEGORY_DEFAULTS = {
     fun:        { maxHits: 4, windowMs: 15_000 },   
@@ -15,10 +22,7 @@ const CATEGORY_DEFAULTS = {
     utility:    { maxHits: 4, windowMs: 15_000 },   
 };
 
-
-
 const COMMAND_OVERRIDES = {
-    
     daily:       { maxHits: 1, windowMs: 10_000 },   
     weekly:      { maxHits: 1, windowMs: 10_000 },
     monthly:     { maxHits: 1, windowMs: 10_000 },
@@ -48,29 +52,21 @@ const COMMAND_OVERRIDES = {
     pokeboard:   { maxHits: 2, windowMs: 20_000 },
     inventory:   { maxHits: 4, windowMs: 15_000 },   
     giveaway:    { maxHits: 2, windowMs: 20_000 },
-
-    
     marry:       { maxHits: 2, windowMs: 30_000 },
     divorce:     { maxHits: 2, windowMs: 30_000 },
     adopt:       { maxHits: 2, windowMs: 20_000 },
     disown:      { maxHits: 2, windowMs: 20_000 },
-
-    
     meme:        { maxHits: 3, windowMs: 15_000 },
     dank:        { maxHits: 3, windowMs: 15_000 },
-
-    
     ping:        { maxHits: 2, windowMs: 30_000 },   
     everyone:    { maxHits: 1, windowMs: 60_000 },   
     help:        { maxHits: 3, windowMs: 15_000 },
-
-    
     ban:         { maxHits: 3, windowMs: 30_000 },
     kick:        { maxHits: 3, windowMs: 30_000 },
 };
 
-
 const ACTION_LIMITS = {
+    message_burst: BURST_CONFIG,
     catch: {
         maxHits: 5,
         windowMs: 15_000,
@@ -106,7 +102,6 @@ const ACTION_LIMITS = {
         windowMs: 30_000,
         message: '⏳ _Too many service control commands. Wait a moment._'
     },
-    
     command_global: {
         maxHits: 5,
         windowMs: 15_000,
@@ -114,9 +109,7 @@ const ACTION_LIMITS = {
     }
 };
 
-
 const CMD_RATE_LIMIT_MSG = '⏳ _Slow down! You\'re using this command too fast._\n_Wait a few seconds before trying again._ 🐢';
-
 
 const TIMEOUTS = {
     command_execute: 30_000,
@@ -125,7 +118,6 @@ const TIMEOUTS = {
     module_request: 15_000,
     media_download: 20_000,
 };
-
 
 const rateLimits = new Map();
 const CLEANUP_INTERVAL_MS = 60_000;
@@ -139,6 +131,10 @@ function getCommandConfig(commandName, category) {
         return CATEGORY_DEFAULTS[category];
     }
     return ACTION_LIMITS.command_global;
+}
+
+function checkMessageBurst(userId) {
+    return checkRateLimit(userId, 'message_burst');
 }
 
 function checkCommandLimit(userId, commandName, category) {
@@ -178,7 +174,6 @@ function _check(userId, action, maxHits, windowMs, message) {
 
     const timestamps = userActions.get(action);
 
-    
     const windowStart = now - windowMs;
     while (timestamps.length > 0 && timestamps[0] <= windowStart) {
         timestamps.shift();
@@ -203,17 +198,6 @@ function _check(userId, action, maxHits, windowMs, message) {
         retryAfterMs: 0,
         message: null
     };
-}
-
-function recordHit(userId, action) {
-    if (!rateLimits.has(userId)) {
-        rateLimits.set(userId, new Map());
-    }
-    const userActions = rateLimits.get(userId);
-    if (!userActions.has(action)) {
-        userActions.set(action, []);
-    }
-    userActions.get(action).push(Date.now());
 }
 
 function wrapWithTimeout(promise, timeoutMs, label = 'Operation') {
@@ -242,40 +226,8 @@ class TimeoutError extends Error {
     }
 }
 
-function getUserStats(userId) {
-    if (!rateLimits.has(userId)) return {};
-    const userActions = rateLimits.get(userId);
-    const stats = {};
-    const now = Date.now();
-
-    for (const [action, timestamps] of userActions.entries()) {
-        
-        let windowMs = 15_000; 
-        if (action.startsWith('cmd:')) {
-            const cmdName = action.slice(4);
-            const cfg = COMMAND_OVERRIDES[cmdName] || ACTION_LIMITS.command_global;
-            windowMs = cfg.windowMs;
-        } else if (ACTION_LIMITS[action]) {
-            windowMs = ACTION_LIMITS[action].windowMs;
-        }
-        const windowStart = now - windowMs;
-        const activeHits = timestamps.filter(t => t > windowStart).length;
-        stats[action] = { hits: activeHits };
-    }
-    return stats;
-}
-
-function resetLimits(userId = null) {
-    if (userId) {
-        rateLimits.delete(userId);
-    } else {
-        rateLimits.clear();
-    }
-}
-
 function cleanup() {
     const now = Date.now();
-    
     const maxWindow = 120_000;
     for (const [userId, userActions] of rateLimits.entries()) {
         for (const [action, timestamps] of userActions.entries()) {
@@ -309,14 +261,12 @@ function stopCleanup() {
 startCleanup();
 
 module.exports = {
+    checkMessageBurst,
     checkRateLimit,
     checkCommandLimit,
     getCommandConfig,
-    recordHit,
     wrapWithTimeout,
     TimeoutError,
-    getUserStats,
-    resetLimits,
     cleanup,
     startCleanup,
     stopCleanup,

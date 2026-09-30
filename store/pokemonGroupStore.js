@@ -3,7 +3,7 @@ const pokemonStore = require('./pokemonStore');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('../utils/baileysCompat');
+} = require('../utils/wwebjsCompat');
 const groupConfigs = {};
 const spawnTimers = {};
 let client = null;

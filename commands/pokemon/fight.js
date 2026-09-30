@@ -7,7 +7,7 @@ const {
 const axios = require('axios');
 const {
   MessageMedia
-} = require('../../utils/baileysCompat');
+} = require('../../utils/wwebjsCompat');
 const battleStore = require('../../store/battleStore');
 const { getUserId } = require('../../utils/getUserId');
 const activeChallenges = new Map();

@@ -1,6 +1,6 @@
 const {
   MessageMedia
-} = require('../../utils/baileysCompat');
+} = require('../../utils/wwebjsCompat');
 const {
   getLastDeletedMedia
 } = require('../../store/snipeStore');

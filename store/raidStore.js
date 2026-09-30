@@ -7,7 +7,7 @@ const economyStore = require('./economyStore');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('../utils/baileysCompat');
+} = require('../utils/wwebjsCompat');
 let globalRaid = null;
 let isAutoRaidEnabled = true;
 const activeRaids = {

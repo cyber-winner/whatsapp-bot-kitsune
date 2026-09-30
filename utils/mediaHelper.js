@@ -1,6 +1,6 @@
 const {
   MessageMedia
-} = require('./baileysCompat');
+} = require('./wwebjsCompat');
 const {
   gifToMp4Base64
 } = require('./gifApi');

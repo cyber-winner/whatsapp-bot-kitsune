@@ -1,5 +1,5 @@
 const UnoGame = require('../../models/UnoGame');
-const { MessageMedia } = require('../../utils/baileysCompat');
+const { MessageMedia } = require('../../utils/wwebjsCompat');
 const { buildDeck, parseCardInput, getHumanCardName, matchCards, createHandImage, WILDS, COLORS } = require('../../utils/unoLogic');
 const path = require('path');
 
@@ -512,7 +512,7 @@ module.exports = {
         if (autoDrawDmJid) {
             try {
                 const { createHandImage, getHumanCardName } = require('../../utils/unoLogic');
-                const { MessageMedia } = require('../../utils/baileysCompat');
+                const { MessageMedia } = require('../../utils/wwebjsCompat');
                 const handImagePath = require('path').join(__dirname, '..', '..', 'data', 'UNO', `tmp_${playerId}_hand.png`);
                 await createHandImage(player.cards, handImagePath);
                 const media = MessageMedia.fromFilePath(handImagePath);

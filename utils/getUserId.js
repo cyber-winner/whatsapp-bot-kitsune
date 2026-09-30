@@ -1,11 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-const MAPPINGS_FILE = path.join(__dirname, '..', 'store-data-for-use', 'lid_mappings.json');
+const MAPPINGS_FILE = path.join(__dirname, '..', 'data', 'lid_mappings.json');
 let lidToPhoneMap = {};
 let phoneToLidMap = {};
 
-// Auto-load on startup
+const dataDir = path.dirname(MAPPINGS_FILE);
+if (!fs.existsSync(dataDir)) {
+    try {
+        fs.mkdirSync(dataDir, { recursive: true });
+    } catch (e) {}
+}
+
 function loadMappingsFromFile() {
     try {
         if (fs.existsSync(MAPPINGS_FILE)) {
@@ -13,7 +19,7 @@ function loadMappingsFromFile() {
             lidToPhoneMap = JSON.parse(data);
             phoneToLidMap = {};
             for (const [lid, phone] of Object.entries(lidToPhoneMap)) {
-                phoneToLidMap[phone] = lid;
+                if (phone) phoneToLidMap[phone] = lid;
             }
         }
     } catch (e) {
@@ -21,13 +27,6 @@ function loadMappingsFromFile() {
     }
 }
 loadMappingsFromFile();
-
-// Watch for cross-process updates
-fs.watchFile(MAPPINGS_FILE, (curr, prev) => {
-    if (curr.mtime > prev.mtime) {
-        loadMappingsFromFile();
-    }
-});
 
 function saveMappings() {
     try {
@@ -39,43 +38,48 @@ function saveMappings() {
 
 function registerMapping(lid, phoneNumber) {
     if (!lid || !phoneNumber || lid === phoneNumber) return;
-    if (lidToPhoneMap[lid] === phoneNumber) return; // Already mapped
+    const cleanLid = lid.split('@')[0].split(':')[0];
+    const cleanPhone = phoneNumber.split('@')[0].split(':')[0];
+
+    if (lidToPhoneMap[cleanLid] === cleanPhone) return;
     
-    lidToPhoneMap[lid] = phoneNumber;
-    phoneToLidMap[phoneNumber] = lid;
+    lidToPhoneMap[cleanLid] = cleanPhone;
+    phoneToLidMap[cleanPhone] = cleanLid;
     saveMappings();
 }
 
 function getPhoneFromLid(lid) {
-    if (lid === '73951434776709') return '919332723557'; // Hardcoded for FATHER
-    return lidToPhoneMap[lid] || null;
+    if (!lid) return null;
+    const cleanLid = lid.split('@')[0].split(':')[0];
+    return lidToPhoneMap[cleanLid] || null;
 }
 
 function getLidFromPhone(phone) {
-    if (phone === '919332723557') return '73951434776709'; // Hardcoded for FATHER
-    return phoneToLidMap[phone] || null;
+    if (!phone) return null;
+    const cleanPhone = phone.split('@')[0].split(':')[0];
+    return phoneToLidMap[cleanPhone] || null;
 }
 
+/**
+ * Returns a clean user identifier without destroying valid @lid identifiers or forcing string replacement.
+ */
 function getUserId(contact) {
     if (!contact) return '';
     
+    if (typeof contact === 'string') {
+        return contact.split('@')[0].split(':')[0];
+    }
+
     const serialized = contact.id?._serialized || '';
     const rawId = contact.id?.user || serialized.split('@')[0] || '';
-    const isLid = serialized.endsWith('@lid');
+    const isLid = serialized.endsWith('@lid') || (typeof contact.id === 'string' && contact.id.endsWith('@lid'));
     const phoneNumber = contact.number || null;
     
-    if (serialized.endsWith('@c.us') && rawId) {
+    if (isLid) {
+        if (phoneNumber && phoneNumber !== rawId) {
+            registerMapping(rawId, phoneNumber);
+        }
         return rawId;
-    }
-    
-    if (isLid && rawId && phoneNumber && phoneNumber !== rawId) {
-        registerMapping(rawId, phoneNumber);
-        return phoneNumber;
-    }
-    
-    if (isLid && rawId) {
-        const cachedPhone = getPhoneFromLid(rawId);
-        if (cachedPhone) return cachedPhone;
     }
     
     if (phoneNumber && phoneNumber !== rawId) {

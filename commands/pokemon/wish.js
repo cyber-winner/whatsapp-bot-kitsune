@@ -6,7 +6,7 @@ const {
 const axios = require('axios');
 const {
   MessageMedia
-} = require('../../utils/baileysCompat');
+} = require('../../utils/wwebjsCompat');
 const { getUserId } = require('../../utils/getUserId');
 module.exports = {
   name: 'wish',

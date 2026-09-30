@@ -1,7 +1,7 @@
 {
   "name": "kitsune-wa-bot",
   "version": "1.0.0",
-  "description": "Kitsune — A premium WhatsApp group bot with snipe, autoreact, fun interactions, and moderation.",
+  "description": "DB-Lenrah — A premium WhatsApp group and private bot with AI, moderation, points, and utilities.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -17,15 +17,14 @@
   "keywords": [
     "whatsapp",
     "bot",
-    "kitsune"
+    "dblenrah"
   ],
   "author": "cyber-winner",
   "license": "UNLICENSED",
   "private": true,
   "type": "commonjs",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
-    "@whiskeysockets/baileys": "^6.7.16",
+    "@google/genai": "^2.24.0",
     "axios": "^1.7.9",
     "better-sqlite3": "^12.10.0",
     "dotenv": "^16.6.1",
@@ -41,6 +40,7 @@
     "qrcode-terminal": "^0.12.0",
     "sharp": "^0.35.3",
     "systeminformation": "^5.31.7",
-    "vibe-rewards": "^1.0.1"
+    "vibe-rewards": "^1.0.1",
+    "whatsapp-web.js": "^1.26.0"
   }
 }

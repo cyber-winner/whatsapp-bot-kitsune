@@ -1,35 +1,54 @@
+/**
+ * commandHandler.js - Standardized command autoloader and registry.
+ */
+
 const fs = require('fs');
 const path = require('path');
+
 function loadCommands(client) {
   client.commands = new Map();
   client.categories = new Map();
   const commandsDir = path.join(__dirname, '..', 'commands');
+
   if (!fs.existsSync(commandsDir)) {
     console.warn('[CommandHandler] commands/ directory not found.');
     return;
   }
+
   const categories = fs.readdirSync(commandsDir).filter(f => fs.statSync(path.join(commandsDir, f)).isDirectory());
+
   for (const category of categories) {
     const categoryPath = path.join(commandsDir, category);
     const commandFiles = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'));
     const categoryCommands = [];
+
     for (const file of commandFiles) {
       try {
         const exported = require(path.join(categoryPath, file));
         const commandsToRegister = Array.isArray(exported) ? exported : [exported];
+
         for (const command of commandsToRegister) {
           if (!command.name || !command.execute) {
             console.warn(`[CommandHandler] Skipping in ${file}: missing name or execute.`);
             continue;
           }
+
+          // Ensure standard command metadata
           command.category = category;
-          client.commands.set(command.name, command);
-          categoryCommands.push(command.name);
-          if (command.aliases && Array.isArray(command.aliases)) {
-            for (const alias of command.aliases) {
-              client.commands.set(alias, command);
-            }
+          command.aliases = Array.isArray(command.aliases) ? command.aliases : [];
+          command.description = command.description || 'No description provided';
+          command.usage = command.usage || `-${command.name}`;
+          command.groupOnly = Boolean(command.groupOnly);
+          command.privateOnly = Boolean(command.privateOnly);
+          command.adminOnly = Boolean(command.adminOnly);
+
+          client.commands.set(command.name.toLowerCase(), command);
+          categoryCommands.push(command.name.toLowerCase());
+
+          for (const alias of command.aliases) {
+            client.commands.set(alias.toLowerCase(), command);
           }
+
           console.log(`  ✓ Loaded: -${command.name} [${category}]`);
         }
       } catch (err) {
@@ -38,7 +57,8 @@ function loadCommands(client) {
     }
     client.categories.set(category, categoryCommands);
   }
-  console.log(`\n📦 Loaded ${client.commands.size} commands across ${categories.length} categories.\n`);
+
+  console.log(`\n📦 Loaded ${client.commands.size} command triggers across ${categories.length} categories.\n`);
 }
 
 function unloadCategory(client, category) {
@@ -51,10 +71,10 @@ function unloadCategory(client, category) {
     const command = client.commands.get(cmdName);
     if (command && command.aliases) {
       for (const alias of command.aliases) {
-        client.commands.delete(alias);
+        client.commands.delete(alias.toLowerCase());
       }
     }
-    client.commands.delete(cmdName);
+    client.commands.delete(cmdName.toLowerCase());
   }
   
   client.categories.delete(category);
@@ -65,7 +85,7 @@ function unloadCategory(client, category) {
     delete require.cache[require.resolve(filePath)];
   }
   
-  console.log(`[CommandHandler] Unloaded category: ${category} and purged from memory.`);
+  console.log(`[CommandHandler] Unloaded category: ${category}`);
 }
 
 function reloadCategory(client, category) {
@@ -84,12 +104,18 @@ function reloadCategory(client, category) {
       for (const command of commandsToRegister) {
         if (!command.name || !command.execute) continue;
         command.category = category;
-        client.commands.set(command.name, command);
-        categoryCommands.push(command.name);
-        if (command.aliases && Array.isArray(command.aliases)) {
-          for (const alias of command.aliases) {
-            client.commands.set(alias, command);
-          }
+        command.aliases = Array.isArray(command.aliases) ? command.aliases : [];
+        command.description = command.description || 'No description provided';
+        command.usage = command.usage || `-${command.name}`;
+        command.groupOnly = Boolean(command.groupOnly);
+        command.privateOnly = Boolean(command.privateOnly);
+        command.adminOnly = Boolean(command.adminOnly);
+
+        client.commands.set(command.name.toLowerCase(), command);
+        categoryCommands.push(command.name.toLowerCase());
+
+        for (const alias of command.aliases) {
+          client.commands.set(alias.toLowerCase(), command);
         }
       }
     } catch (err) {

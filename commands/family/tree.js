@@ -2,7 +2,7 @@ const familyStore = require('../../store/familyStore');
 const { getUserId } = require('../../utils/getUserId');
 const {
   MessageMedia
-} = require('../../utils/baileysCompat');
+} = require('../../utils/wwebjsCompat');
 const axios = require('axios');
 async function generateTreeDot(userId, targetContactName, familyStoreObj, client) {
   const {

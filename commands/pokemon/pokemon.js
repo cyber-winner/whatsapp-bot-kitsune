@@ -2,7 +2,7 @@ const { OWNER_NAME } = require('../../config');
 const axios = require('axios');
 const {
   MessageMedia
-} = require('../../utils/baileysCompat');
+} = require('../../utils/wwebjsCompat');
 const {
   getUserPokedex,
   getPokemonDetails,

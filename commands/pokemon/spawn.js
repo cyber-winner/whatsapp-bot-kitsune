@@ -1,7 +1,7 @@
 const { OWNER_NAME } = require('../../config');
 const pokemonStore = require('../../store/pokemonStore');
 const { isFather } = require('../../utils/permissions');
-const { MessageMedia } = require('../../utils/baileysCompat');
+const { MessageMedia } = require('../../utils/wwebjsCompat');
 const axios = require('axios');
 
 module.exports = {

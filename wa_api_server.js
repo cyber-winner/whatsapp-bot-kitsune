@@ -1,5 +1,5 @@
 const express = require('express');
-const { MessageMedia } = require('./utils/baileysCompat');
+const { MessageMedia } = require('./utils/wwebjsCompat');
 const { requireInternalAuth } = require('./utils/internalAuth');
 
 function reviveMedia(obj) {
